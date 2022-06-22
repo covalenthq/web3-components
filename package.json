@@ -3,6 +3,7 @@
   "files": [
     "./dist"
   ],
+  "repository": "https://github.com/covalenthq/web3-components",
   "version": "0.1.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
