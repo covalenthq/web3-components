@@ -1,10 +1,10 @@
 {
-  "name": "@covalenthq/web3-components",
+  "name": "@covalenthq-tools/web3-components",
   "files": [
     "./dist"
   ],
   "repository": "https://github.com/covalenthq/web3-components",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "source": "src/index.js",

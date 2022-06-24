@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import 'antd/dist/antd.css'
-import { Table } from 'antd'
+import { Skeleton, Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 
 function TokenBalances(props) {
   const [data, getData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => { fetchData() }, [props.address, props.chainId])
 
@@ -13,6 +14,7 @@ function TokenBalances(props) {
   }
 
   const fetchData = () => {
+    setLoading(true)
     let headers = new Headers()
     let authString = `${props.apikey}:`
     headers.set('Authorization', 'Basic ' + btoa(authString))
@@ -22,6 +24,7 @@ function TokenBalances(props) {
         res.json())
 
       .then((response) => {
+        setLoading(false)
         getData(response.data.items)
       })
   }
@@ -88,7 +91,9 @@ function TokenBalances(props) {
   return (
     <>
       <div className="balances">
-        <Table columns={columns} dataSource={data} />
+        <Skeleton loading={loading} active>
+          <Table columns={columns} dataSource={data} />
+        </Skeleton>
       </div>
     </>
   );
