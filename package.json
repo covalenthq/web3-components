@@ -1,23 +1,35 @@
 {
-  "name": "@covalenthq-tools/web3-components",
+  "name": "@covalenthq/web3-components",
+  "keywords": [
+    "web3",
+    "blockchain",
+    "API",
+    "components"
+  ],
+  "license": "MIT",
   "files": [
     "./dist"
   ],
   "repository": "https://github.com/covalenthq/web3-components",
-  "version": "0.1.2",
+  "version": "0.3.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "source": "src/index.js",
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.21.3",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "truncate-eth-address": "^1.0.2"
   },
   "scripts": {
     "build": "rollup -c",
-    "build-watch": "rollup -c -w"
+    "build-watch": "rollup -c -w",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"  
   },
   "eslintConfig": {
     "extends": [
@@ -44,7 +56,12 @@
     "@babel/preset-react": "^7.17.12",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-image": "^2.1.1",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
     "rollup": "^2.75.7",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",

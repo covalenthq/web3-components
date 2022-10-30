@@ -1,32 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import 'antd/dist/antd.css'
-import { Skeleton, Table } from 'antd'
+import { useState, useRef, useEffect } from 'react'
+import 'antd/dist/antd.min.css'
+import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
+import { getDataFromCovalentAPI } from '../utils/api'
 
-function TokenBalances(props) {
+const TokenBalances = ({address, chainId}) => {
   const [data, getData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
 
-  useEffect(() => { fetchData() }, [props.address, props.chainId])
+  useEffect(() => {
+    if (address) {
+      fetchData();
+    }
+  }, [address, chainId])
 
   const handleImgError = (e) => {
     e.target.src = defaultLogo
   }
 
   const fetchData = () => {
-    setLoading(true)
-    let headers = new Headers()
-    let authString = `${props.apikey}:`
-    headers.set('Authorization', 'Basic ' + btoa(authString))
-    const URL = `https://api.covalenthq.com/v1/${props.chainId}/address/${props.address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false`
-    fetch(URL, {method: 'GET', headers: headers})
-      .then((res) =>
-        res.json())
-
+    setError(false)
+    setIsLoading(true)
+    const URL = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=true`
+    getDataFromCovalentAPI(URL)
       .then((response) => {
-        setLoading(false)
+        setIsLoading(false)
         getData(response.data.items)
       })
+      .catch((e) => setError(true))
   }
 
   const columns = [
@@ -52,7 +54,7 @@ function TokenBalances(props) {
       key: 'balance',
       sorter: (a, b) => a.balance - b.balance,
       render: (_, item) => (
-        <td>{Number.isInteger(item.balance/10**item.contract_decimals) ? (item.balance/10**item.contract_decimals : (item.balance/10**item.contract_decimals).toFixed(4) }</td>
+        Number.isInteger(item.balance/10**item.contract_decimals) ? (item.balance/10**item.contract_decimals) : (item.balance/10**item.contract_decimals).toFixed(4)
       ),
     },
     {
@@ -83,21 +85,22 @@ function TokenBalances(props) {
       title: 'Contract Address',
       dataIndex: 'contract_address',
       key: 'contract_address',
-    },
-    
+    }, 
   ]
 
-
-  return (
-    <>
-      <div className="balances">
-        <Skeleton loading={loading} active>
-          <Table columns={columns} dataSource={data} />
-        </Skeleton>
-      </div>
-    </>
-  );
+  if (error) {
+    return (
+      <p> Unable to fetch data</p>
+    )
+  } else if (isLoading) {
+      return (
+        <Table loading={true} />
+      )
+  } else if (!isLoading && data) {
+      return (
+        <Table columns={columns} dataSource={data} rowKey='contract_address' />
+      )
+  }
 }
 
-export default TokenBalances;
-  
+export default TokenBalances
