@@ -1,5 +1,7 @@
 # Web3 Components Library
 
+**Live Demo:** https://covalenthq.github.io/Web3-Components-Demo
+
 This web3 library is powered by the [Covalent Unified API](https://www.covalenthq.com/?utm_source=web3_components&utm_medium=docs) and consists of useful React components to fetch any on-chain data across any of the 30+ Covalent supported blockchain networks.
 
 These components do not require an active web3 provider since data is hosted, indexed and queried from the Covalent Network. However, an [API Key](https://www.covalenthq.com/platform?utm_source=web3_components&utm_medium=docs) is required to use them.
@@ -26,7 +28,7 @@ Please refer to the [Covalent API reference](https://www.covalenthq.com/docs/api
 
 ### `<TokenBalances />`
 
-![Token balances demo](https://github.com/covalenthq/web3-resources/blob/main/components/src/assets/token-balances-rc-demo.gif?raw=true)
+![Token balances demo](https://github.com/covalenthq/web3-components/blob/main/src/assets/token-balances-rc-demo.gif?raw=true)
 
 The `<TokenBalances />` component provides a complete and paginated balances table with all the ERC20 tokens and NFTs for a given wallet `address` and `chainId`.
 
@@ -56,7 +58,7 @@ export default App;
 
 ### `<ERC20Transfers />`  
 
-![ERC20Transfers Demo](https://github.com/covalenthq/web3-resources/blob/main/components/src/assets/erc20Transfers-rc-demo.gif?raw=true)
+![ERC20Transfers Demo](https://github.com/covalenthq/web3-components/blob/main/src/assets/erc20Transfers-rc-demo.gif?raw=true)
 
 The ERC20Transfers component returns a paginated list of all the ERC20 token transfers of a wallet address on a particular chain. It takes an `address` and `chainId` as inputs and uses the [`Get Transactions for Address`](https://www.covalenthq.com/docs/api/#/0/Get%20transactions%20for%20address/USD/1) endpoint.
 
@@ -109,7 +111,7 @@ export default App;
 
 ### `<TokenHolders />`
 
-![Token holders demo](https://github.com/covalenthq/web3-resources/blob/main/components/src/assets/token-holders-rc-demo.png?raw=true)
+![Token holders demo](https://github.com/covalenthq/web3-components/blob/main/src/assets/token-holders-rc-demo.png?raw=true)
 
 The `<TokenHolders />` component provides a complete and paginated token holders table with all the wallet addresses and balances/token IDs for a given ERC20 token or NFT collection `tokenAddress` and `chainId`.
 
