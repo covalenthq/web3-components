@@ -9,7 +9,8 @@ import { getDataFromCovalentAPI } from '../utils/api'
 
 const Transactions = ({ chainId, address }) => {
   const [txns, setTxns] = useState(undefined)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const blockexplorerURL = blockExplorerURLs.filter(
     (item) => parseInt(item.chainId) === parseInt(chainId)
@@ -26,19 +27,19 @@ const Transactions = ({ chainId, address }) => {
         const categorizedTransactions = transformedTransactions.map((txn) => {
           return categorizeTransaction(txn, address)
         })
-
+        setError(false)
         setIsLoading(false)
         setTxns(categorizedTransactions)
       })
-      .catch((err) => console.log(err.message))
+      .catch(() => setError(true))
   }, [address])
 
-  if (isLoading) {
+  if (error) {
+    return <p> Unable to fetch data</p>
+  } else if (isLoading) {
     return <Table loading={true} />
   } else if (!isLoading && txns) {
     return <Table dataSource={txns} columns={columns(blockexplorerURL)} rowKey="txnHash" />
-  } else {
-    return null
   }
 }
 
