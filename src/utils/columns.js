@@ -169,7 +169,7 @@ const columns = (blockexplorerURL) => [
           return (
             <div style={{ display: 'flex' }}>
               <img alt="" src={transfers[0]?.logo} height="50" />
-              <div style={{ fontSize: '1.2em', marginLeft: '3px' }}>
+              <div style={{ fontSize: '1.3em', marginLeft: '3px' }}>
                 {symbol}
                 {(Number(transfers[0].param_value) / 10 ** transfers[0].contractDecimals).toFixed(
                   2
@@ -244,7 +244,7 @@ const columns = (blockexplorerURL) => [
           return (
             <div style={{ display: 'flex' }}>
               <img alt="" src={record.logEvents[0].logo} height="50" />
-              <div style={{ fontSize: '1.2em', marginLeft: '3px' }}>
+              <div style={{ fontSize: '1.3em', marginLeft: '3px' }}>
                 {symbol}
                 {(
                   Number(record.logEvents[0].param_value) /
@@ -259,7 +259,7 @@ const columns = (blockexplorerURL) => [
           return (
             <div style={{ display: 'flex' }}>
               <img alt="" src={record.logEvents[0].logo} height="50" />
-              <div style={{ fontSize: '1.2em', marginLeft: '3px' }}>
+              <div style={{ fontSize: '1.3em', marginLeft: '3px' }}>
                 {symbol}
                 {record.logEvents[0].param_tokenId}
                 <div>{record.logEvents[0].ticker}</div>
@@ -276,7 +276,7 @@ const columns = (blockexplorerURL) => [
               src="https://res.cloudinary.com/dl4murstw/image/upload/v1668503933/0x0000000000000000000000000000000000000000_oinhk2.png"
               height="50"
             />
-            <div style={{ fontSize: '1.2em', marginLeft: '3px' }}>
+            <div style={{ fontSize: '1.3em', marginLeft: '3px' }}>
               {symbol}
               {(Number(record.value) / 10 ** 18).toFixed(5)}
               <div>ETH</div>
@@ -289,7 +289,7 @@ const columns = (blockexplorerURL) => [
           return (
             <div style={{ display: 'flex' }}>
               <img alt="" src={transfers[1]?.logo} height="50" />
-              <div style={{ fontSize: '1.2em', marginLeft: '3px' }}>
+              <div style={{ fontSize: '1.3em', marginLeft: '3px' }}>
                 {symbol}
                 {(Number(transfers[1].param_value) / 10 ** transfers[1].contractDecimals).toFixed(
                   2
@@ -337,17 +337,17 @@ const columns = (blockexplorerURL) => [
       const gasFee = (record.gasSpent * record.gasPrice) / 10 ** 18
       const gasFeeQuote = (gasFee * record.gasQuoteRate).toFixed(2)
       return (
-        <>
+        <div style={{ fontSize: '1.3em' }}>
           <p>
             {gasFee.toFixed(6)} ETH{' '}
             <img
               alt=""
               src="https://res.cloudinary.com/dl4murstw/image/upload/v1668511869/gas-station_ydpfe5.png"
-              height="12"
+              height="14"
             />
           </p>
           <p>(${gasFeeQuote})</p>
-        </>
+        </div>
       )
     }
   },
@@ -358,7 +358,11 @@ const columns = (blockexplorerURL) => [
     width: '10%',
     render: (txnHash) => {
       return (
-        <a href={blockexplorerURL + 'tx/' + txnHash} target="_blank" rel="noopener noreferrer">
+        <a
+          style={{ fontSize: '1.3em' }}
+          href={blockexplorerURL + 'tx/' + txnHash}
+          target="_blank"
+          rel="noopener noreferrer">
           {' '}
           View Transaction
         </a>
