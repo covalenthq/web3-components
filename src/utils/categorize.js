@@ -1,6 +1,5 @@
 const categorizeTransaction = (txn, address) => {
   const flow = txn.from.toLowerCase() !== address.toLowerCase() ? 'Receive' : 'Send'
-  console.log('flow', flow)
   if (isERC20(txn)) {
     return {
       ...txn,

@@ -1070,7 +1070,7 @@ var columns = function columns(blockexplorerURL) {
               height: "50"
             }), /*#__PURE__*/jsxRuntime.jsxs("div", {
               style: {
-                fontSize: '1.2em',
+                fontSize: '1.3em',
                 marginLeft: '3px'
               },
               children: [symbol, (Number(transfers[0].param_value) / Math.pow(10, transfers[0].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
@@ -1138,7 +1138,7 @@ var columns = function columns(blockexplorerURL) {
               height: "50"
             }), /*#__PURE__*/jsxRuntime.jsxs("div", {
               style: {
-                fontSize: '1.2em',
+                fontSize: '1.3em',
                 marginLeft: '3px'
               },
               children: [symbol, (Number(record.logEvents[0].param_value) / Math.pow(10, record.logEvents[0].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
@@ -1158,7 +1158,7 @@ var columns = function columns(blockexplorerURL) {
               height: "50"
             }), /*#__PURE__*/jsxRuntime.jsxs("div", {
               style: {
-                fontSize: '1.2em',
+                fontSize: '1.3em',
                 marginLeft: '3px'
               },
               children: [_symbol, record.logEvents[0].param_tokenId, /*#__PURE__*/jsxRuntime.jsx("div", {
@@ -1179,7 +1179,7 @@ var columns = function columns(blockexplorerURL) {
             height: "50"
           }), /*#__PURE__*/jsxRuntime.jsxs("div", {
             style: {
-              fontSize: '1.2em',
+              fontSize: '1.3em',
               marginLeft: '3px'
             },
             children: [_symbol2, (Number(record.value) / Math.pow(10, 18)).toFixed(5), /*#__PURE__*/jsxRuntime.jsx("div", {
@@ -1202,7 +1202,7 @@ var columns = function columns(blockexplorerURL) {
               height: "50"
             }), /*#__PURE__*/jsxRuntime.jsxs("div", {
               style: {
-                fontSize: '1.2em',
+                fontSize: '1.3em',
                 marginLeft: '3px'
               },
               children: [_symbol3, (Number(transfers[1].param_value) / Math.pow(10, transfers[1].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
@@ -1241,12 +1241,15 @@ var columns = function columns(blockexplorerURL) {
     render: function render(text, record) {
       var gasFee = record.gasSpent * record.gasPrice / Math.pow(10, 18);
       var gasFeeQuote = (gasFee * record.gasQuoteRate).toFixed(2);
-      return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+      return /*#__PURE__*/jsxRuntime.jsxs("div", {
+        style: {
+          fontSize: '1.3em'
+        },
         children: [/*#__PURE__*/jsxRuntime.jsxs("p", {
           children: [gasFee.toFixed(6), " ETH", ' ', /*#__PURE__*/jsxRuntime.jsx("img", {
             alt: "",
             src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668511869/gas-station_ydpfe5.png",
-            height: "12"
+            height: "14"
           })]
         }), /*#__PURE__*/jsxRuntime.jsxs("p", {
           children: ["($", gasFeeQuote, ")"]
@@ -1260,6 +1263,9 @@ var columns = function columns(blockexplorerURL) {
     width: '10%',
     render: function render(txnHash) {
       return /*#__PURE__*/jsxRuntime.jsxs("a", {
+        style: {
+          fontSize: '1.3em'
+        },
         href: blockexplorerURL + 'tx/' + txnHash,
         target: "_blank",
         rel: "noopener noreferrer",
@@ -1276,10 +1282,14 @@ var Transactions = function Transactions(_ref) {
     _useState2 = _slicedToArray(_useState, 2),
     txns = _useState2[0],
     setTxns = _useState2[1];
-  var _useState3 = react.useState(true),
+  var _useState3 = react.useState(false),
     _useState4 = _slicedToArray(_useState3, 2),
     isLoading = _useState4[0],
     setIsLoading = _useState4[1];
+  var _useState5 = react.useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    error = _useState6[0],
+    setError = _useState6[1];
   var blockexplorerURL = blockExplorerURLs.filter(function (item) {
     return parseInt(item.chainId) === parseInt(chainId);
   })[0].url;
@@ -1293,13 +1303,18 @@ var Transactions = function Transactions(_ref) {
       var categorizedTransactions = transformedTransactions.map(function (txn) {
         return categorizeTransaction(txn, address);
       });
+      setError(false);
       setIsLoading(false);
       setTxns(categorizedTransactions);
-    }).catch(function (err) {
-      return console.log(err.message);
+    }).catch(function () {
+      return setError(true);
     });
   }, [address]);
-  if (isLoading) {
+  if (error) {
+    return /*#__PURE__*/jsxRuntime.jsx("p", {
+      children: " Unable to fetch data"
+    });
+  } else if (isLoading) {
     return /*#__PURE__*/jsxRuntime.jsx(antd.Table, {
       loading: true
     });
@@ -1309,8 +1324,6 @@ var Transactions = function Transactions(_ref) {
       columns: columns(blockexplorerURL),
       rowKey: "txnHash"
     });
-  } else {
-    return null;
   }
 };
 

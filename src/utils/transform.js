@@ -18,8 +18,6 @@ const transform = (transactions) => {
 }
 
 const extractMethods = (logEvents) => {
-  console.log('extractmethod is reached')
-  console.log(logEvents)
   const methods = []
   logEvents.map((logEvent) => {
     if (logEvent.decoded) {
@@ -32,7 +30,6 @@ const extractMethods = (logEvents) => {
 
 const transformLogEvents = (logEvents) => {
   const newLogEvents = logEvents.map((item) => {
-    console.log(item.decoded)
     if (item.decoded) {
       const returnObject = {
         name: item.decoded.name,
