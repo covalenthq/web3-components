@@ -8,11 +8,46 @@ var antd = require('antd');
 var jsxRuntime = require('react/jsx-runtime');
 var icons = require('@ant-design/icons');
 var truncateEthAddress = require('truncate-eth-address');
+require('antd/dist/antd.css');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var truncateEthAddress__default = /*#__PURE__*/_interopDefaultLegacy(truncateEthAddress);
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
+  }
+  return keys;
+}
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
+  }
+  return target;
+}
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
@@ -70,7 +105,7 @@ var getDataFromCovalentAPI = function getDataFromCovalentAPI(URL) {
     method: 'GET',
     headers: headers
   }).then(function (resp) {
-    if (resp.status === 200) return resp.json();else throw new Error("Invalid response");
+    if (resp.status === 200) return resp.json();else throw new Error('Invalid response');
   });
 };
 
@@ -197,7 +232,7 @@ var filterForTransfers = function filterForTransfers(res) {
     var logEventsBoolArray = txnLogEvents.map(function (logEvent) {
       if (logEvent.decoded) {
         //exclude decoded==null cases
-        if (logEvent.decoded.name === "Transfer") {
+        if (logEvent.decoded.name === 'Transfer') {
           isTransfer = true;
         } else {
           isTransfer = false;
@@ -219,12 +254,12 @@ var pruneTransfers = function pruneTransfers(transfersData, address) {
   var transfers = transfersData.map(function (transfer) {
     var innerTransfersLogItem = []; //this will be an array of an array of params objects
 
-    var transferFlow = transfer.from_address.toLowerCase() === address.toLowerCase() ? "Out" : "In";
+    var transferFlow = transfer.from_address.toLowerCase() === address.toLowerCase() ? 'Out' : 'In';
     var transferLogEvent = transfer.log_events.filter(function (logEvent) {
       //Returns true only for those items that are transfer events.
       var isTransfer;
       if (logEvent.decoded) {
-        if (logEvent.decoded.name === "Transfer") {
+        if (logEvent.decoded.name === 'Transfer') {
           isTransfer = true;
         } else {
           isTransfer = false;
@@ -232,9 +267,9 @@ var pruneTransfers = function pruneTransfers(transfersData, address) {
       }
       return isTransfer;
     });
-    console.log("Transfer log event", transferLogEvent);
-    var from = transferFlow === "Out" ? address : transfer.from_address;
-    var to = transferFlow === "Out" ? transferLogEvent[0].decoded.params[1].value : address; //Notes on this field: this specifies where the funds are transferred to. Not the contract interacted with.
+    console.log('Transfer log event', transferLogEvent);
+    var from = transferFlow === 'Out' ? address : transfer.from_address;
+    var to = transferFlow === 'Out' ? transferLogEvent[0].decoded.params[1].value : address; //Notes on this field: this specifies where the funds are transferred to. Not the contract interacted with.
     var date = transfer.block_signed_at.slice(0, 10);
     var tokenName = transferLogEvent[0].sender_name;
     var tokenSymbol = transferLogEvent[0].sender_contract_ticker_symbol;
@@ -242,7 +277,7 @@ var pruneTransfers = function pruneTransfers(transfersData, address) {
     var transferValue = parseInt(transferLogEvent[0].decoded.params[2].value) / Math.pow(10, parseInt(transferLogEvent[0].sender_contract_decimals));
     var tokenAddress = transferLogEvent[0].sender_address;
     var txnHash = transfer.tx_hash;
-    var isERC721 = transferLogEvent[0].decoded.params[2].name == 'tokenId' ? true : false;
+    var isERC721 = transferLogEvent[0].decoded.params[2].name === 'tokenId' ? true : false;
     var multiTransfersChecker = function multiTransfersChecker() {
       //this function checks whether the txn contains multiple transfers. Returns true when there's > 1 transfers events
       var transfersNum = 0;
@@ -250,7 +285,7 @@ var pruneTransfers = function pruneTransfers(transfersData, address) {
         if (transfer.log_events[i].decoded === null) {
           return false;
         }
-        if (transfer.log_events[i].decoded.name === "Transfer") {
+        if (transfer.log_events[i].decoded.name === 'Transfer') {
           transfersNum++;
           innerTransfersLogItem.push(transfer.log_events[i]);
         }
@@ -304,7 +339,7 @@ var pruneTransfers = function pruneTransfers(transfersData, address) {
   return transfersWithoutNFTs;
 };
 var handleImgError = function handleImgError(e) {
-  e.target.src = "https://res.cloudinary.com/dl4murstw/image/upload/v1659590465/default-logo_om9kbi.png";
+  e.target.src = 'https://res.cloudinary.com/dl4murstw/image/upload/v1659590465/default-logo_om9kbi.png';
 };
 var multiTransfersTableColumns = function multiTransfersTableColumns(blockexplorerURL) {
   var columns = [{
@@ -354,108 +389,10 @@ var multiTransfersTableColumns = function multiTransfersTableColumns(blockexplor
   }];
   return columns;
 };
-var blockExplorerURLs = [{
-  chainId: 1,
-  url: 'https://etherscan.io/'
-}, {
-  chainId: 42,
-  url: 'https://kovan.etherscan.io/'
-}, {
-  chainId: 137,
-  url: 'https://polygonscan.com/'
-}, {
-  chainId: 80001,
-  url: 'https://mumbai.polygonscan.com/'
-}, {
-  chainId: 43114,
-  url: 'https://snowtrace.io/'
-}, {
-  chainId: 43113,
-  url: 'https://testnet.snowtrace.io/'
-}, {
-  chainId: 56,
-  url: 'https://www.bscscan.com/'
-}, {
-  chainId: 97,
-  url: 'https://testnet.bscscan.com/'
-}, {
-  chainId: 1284,
-  url: 'https://moonscan.io/'
-}, {
-  chainId: 1287,
-  url: 'https://moonbase-blockscout.testnet.moonbeam.network/'
-}, {
-  chainId: 1285,
-  url: 'https://blockscout.moonriver.moonbeam.network/'
-}, {
-  chainId: 30,
-  url: 'https://explorer.rsk.co/'
-}, {
-  chainId: 31,
-  url: 'https://explorer.testnet.rsk.co/'
-}, {
-  chainId: 42161,
-  url: 'https://arbiscan.io/'
-}, {
-  chainId: 421611,
-  url: 'https://testnet.arbiscan.io/'
-}, {
-  chainId: 250,
-  url: 'https://explorer.fantom.network/'
-}, {
-  chainId: 4002,
-  url: 'https://testnet.ftmscan.com/'
-}, {
-  chainId: 11297108109,
-  url: 'https://explorer.palm.io/'
-}, {
-  chainId: 11297108099,
-  url: 'https://blockscout.com/poa/sokol'
-}, {
-  chainId: 8217,
-  url: 'https://scope.klaytn.com/'
-}, {
-  chainId: 128,
-  url: 'https://www.hecoinfo.com/'
-}, {
-  chainId: 256,
-  url: 'https://scan-testnet.hecochain.com/home/index'
-}, {
-  chainId: 2020,
-  url: 'https://explorer.roninchain.com/'
-}, {
-  chainId: 9001,
-  url: 'https://evm.evmos.org/'
-}, {
-  chainId: 9000,
-  url: 'https://evm.evmos.dev/'
-}, {
-  chainId: 592,
-  url: 'https://astar.subscan.io/'
-}, {
-  chainId: 336,
-  url: 'https://shiden.subscan.io/'
-}, {
-  chainId: 4689,
-  url: 'https://iotexscan.io/'
-}, {
-  chainId: 4690,
-  url: 'https://testnet.iotexscan.io/'
-}, {
-  chainId: 1666600000,
-  url: 'https://explorer.harmony.one/'
-}, {
-  chainId: 1666700000,
-  url: 'https://explorer.pops.one/'
-}, {
-  chainId: 25,
-  url: 'https://cronoscan.com/'
-}];
 var erc20TransfersHelper = {
   filterForTransfers: filterForTransfers,
   pruneTransfers: pruneTransfers,
-  multiTransfersTableColumns: multiTransfersTableColumns,
-  blockExplorerURLs: blockExplorerURLs
+  multiTransfersTableColumns: multiTransfersTableColumns
 };
 
 var ERC20Transfers = function ERC20Transfers(_ref) {
@@ -540,7 +477,7 @@ var ERC20Transfers = function ERC20Transfers(_ref) {
           content: multiTransfersContent,
           trigger: "focus",
           children: /*#__PURE__*/jsxRuntime.jsxs(antd.Button, {
-            children: [" ", /*#__PURE__*/jsxRuntime.jsxs("span", {
+            children: [' ', /*#__PURE__*/jsxRuntime.jsxs("span", {
               children: [/*#__PURE__*/jsxRuntime.jsx(icons.WarningOutlined, {
                 style: {
                   fontSize: '1em'
@@ -596,11 +533,11 @@ var ERC20Transfers = function ERC20Transfers(_ref) {
     dataIndex: 'txnHash',
     key: 'txnHash',
     render: function render(txnHash) {
-      return /*#__PURE__*/jsxRuntime.jsx("a", {
+      return /*#__PURE__*/jsxRuntime.jsxs("a", {
         href: blockexplorerURL + 'tx/' + txnHash,
         target: "_blank",
         rel: "noopener noreferrer",
-        children: " View Transaction"
+        children: [' ', "View Transaction"]
       });
     }
   }];
@@ -613,7 +550,7 @@ var ERC20Transfers = function ERC20Transfers(_ref) {
       loading: true
     });
   } else if (!isLoading && txnData) {
-    console.log("txnData", txnData);
+    console.log('txnData', txnData);
     return /*#__PURE__*/jsxRuntime.jsx(antd.Table, {
       dataSource: txnData,
       columns: columns,
@@ -734,6 +671,665 @@ var TokenHolders = function TokenHolders(_ref) {
   }
 };
 
+var transform = function transform(transactions) {
+  var transformedTransactions = transactions.map(function (transaction) {
+    var logEvents = transaction.log_events;
+    return {
+      date: transaction.block_signed_at,
+      from: transaction.from_address,
+      to: transaction.to_address,
+      value: transaction.value,
+      gasSpent: transaction.gas_spent,
+      gasPrice: transaction.gas_price,
+      gasQuoteRate: transaction.gas_quote_rate,
+      method: extractMethods(logEvents),
+      txnHash: transaction.tx_hash,
+      logEvents: transformLogEvents(logEvents)
+    };
+  });
+  return transformedTransactions;
+};
+var extractMethods = function extractMethods(logEvents) {
+  var methods = [];
+  logEvents.map(function (logEvent) {
+    if (logEvent.decoded) {
+      methods.push(logEvent.decoded.name);
+    }
+    return null;
+  });
+  return methods;
+};
+var transformLogEvents = function transformLogEvents(logEvents) {
+  var newLogEvents = logEvents.map(function (item) {
+    if (item.decoded) {
+      var returnObject = {
+        name: item.decoded.name,
+        signature: item.decoded.signature,
+        contractDecimals: item.sender_contract_decimals,
+        contractName: item.sender_name,
+        logo: item.sender_logo_url,
+        ticker: item.sender_contract_ticker_symbol,
+        contractAddress: item.sender_address
+      };
+      var params = item.decoded.params;
+      if (params) {
+        params.map(function (param) {
+          return returnObject['param_' + param.name] = param.value;
+        });
+      }
+      return returnObject;
+    } else {
+      return null;
+    }
+  });
+  return newLogEvents;
+};
+
+var categorizeTransaction = function categorizeTransaction(txn, address) {
+  var flow = txn.from.toLowerCase() !== address.toLowerCase() ? 'Receive' : 'Send';
+  if (isERC20(txn)) {
+    return _objectSpread2(_objectSpread2({}, txn), {}, {
+      category: 'erc20',
+      flow: flow
+    });
+  } else if (isEthTransfer(txn)) {
+    return _objectSpread2(_objectSpread2({}, txn), {}, {
+      category: 'ethTransfer',
+      flow: flow
+    });
+  } else if (isSwap(txn)) {
+    return _objectSpread2(_objectSpread2({}, txn), {}, {
+      category: 'swap',
+      flow: 'Exchange'
+    });
+  } else {
+    return _objectSpread2(_objectSpread2({}, txn), {}, {
+      category: 'uncategorized',
+      flow: 'Transact'
+    });
+  }
+};
+var isERC20 = function isERC20(txn) {
+  if (Number(txn.value) === 0 && txn.method.filter(function (item) {
+    return item === 'Transfer';
+  }).length === 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+var isEthTransfer = function isEthTransfer(txn) {
+  if (Number(txn.value) > 0 && !txn.method.includes('Transfer')) {
+    return true;
+  } else {
+    return false;
+  }
+};
+var isSwap = function isSwap(txn) {
+  if (txn.method.filter(function (item) {
+    return item === 'Transfer';
+  }).length > 0 && ['Swap', 'Swapped', 'TokenExchange'].some(function (item) {
+    return txn.method.includes(item);
+  })) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+var blockExplorerURLs = [{
+  chainId: 1,
+  url: 'https://etherscan.io/'
+}, {
+  chainId: 42,
+  url: 'https://kovan.etherscan.io/'
+}, {
+  chainId: 137,
+  url: 'https://polygonscan.com/'
+}, {
+  chainId: 80001,
+  url: 'https://mumbai.polygonscan.com/'
+}, {
+  chainId: 43114,
+  url: 'https://snowtrace.io/'
+}, {
+  chainId: 43113,
+  url: 'https://testnet.snowtrace.io/'
+}, {
+  chainId: 56,
+  url: 'https://www.bscscan.com/'
+}, {
+  chainId: 97,
+  url: 'https://testnet.bscscan.com/'
+}, {
+  chainId: 1284,
+  url: 'https://moonscan.io/'
+}, {
+  chainId: 1287,
+  url: 'https://moonbase-blockscout.testnet.moonbeam.network/'
+}, {
+  chainId: 1285,
+  url: 'https://blockscout.moonriver.moonbeam.network/'
+}, {
+  chainId: 30,
+  url: 'https://explorer.rsk.co/'
+}, {
+  chainId: 31,
+  url: 'https://explorer.testnet.rsk.co/'
+}, {
+  chainId: 42161,
+  url: 'https://arbiscan.io/'
+}, {
+  chainId: 421611,
+  url: 'https://testnet.arbiscan.io/'
+}, {
+  chainId: 250,
+  url: 'https://explorer.fantom.network/'
+}, {
+  chainId: 4002,
+  url: 'https://testnet.ftmscan.com/'
+}, {
+  chainId: 11297108109,
+  url: 'https://explorer.palm.io/'
+}, {
+  chainId: 11297108099,
+  url: 'https://blockscout.com/poa/sokol'
+}, {
+  chainId: 8217,
+  url: 'https://scope.klaytn.com/'
+}, {
+  chainId: 128,
+  url: 'https://www.hecoinfo.com/'
+}, {
+  chainId: 256,
+  url: 'https://scan-testnet.hecochain.com/home/index'
+}, {
+  chainId: 2020,
+  url: 'https://explorer.roninchain.com/'
+}, {
+  chainId: 9001,
+  url: 'https://evm.evmos.org/'
+}, {
+  chainId: 9000,
+  url: 'https://evm.evmos.dev/'
+}, {
+  chainId: 592,
+  url: 'https://astar.subscan.io/'
+}, {
+  chainId: 336,
+  url: 'https://shiden.subscan.io/'
+}, {
+  chainId: 4689,
+  url: 'https://iotexscan.io/'
+}, {
+  chainId: 4690,
+  url: 'https://testnet.iotexscan.io/'
+}, {
+  chainId: 1666600000,
+  url: 'https://explorer.harmony.one/'
+}, {
+  chainId: 1666700000,
+  url: 'https://explorer.pops.one/'
+}, {
+  chainId: 25,
+  url: 'https://cronoscan.com/'
+}];
+
+var columns = function columns(blockexplorerURL) {
+  return [{
+    title: 'Type',
+    dataIndex: 'flow',
+    key: 'flow',
+    width: '12%',
+    render: function render(text, record) {
+      var newDate = new Date(record.date);
+      var timeString12Hr = newDate.toLocaleTimeString('en-US', {
+        timeZone: 'UTC',
+        hour12: true,
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+      var day = newDate.toLocaleString('en-US', {
+        day: 'numeric',
+        month: 'short'
+      });
+      return /*#__PURE__*/jsxRuntime.jsxs(jsxRuntime.Fragment, {
+        children: [/*#__PURE__*/jsxRuntime.jsx("p", {
+          style: {
+            fontSize: '2em',
+            margin: '0'
+          },
+          children: text
+        }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+          style: {
+            fontSize: '1.3em',
+            margin: '0'
+          },
+          children: [day, ", ", timeString12Hr]
+        })]
+      });
+    }
+  }, {
+    title: 'Methods',
+    dataIndex: 'method',
+    key: 'method',
+    width: '8%',
+    render: function render(_, record) {
+      if (record.logEvents.length > 0) {
+        return /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
+          children: record.logEvents.map(function (logEvent, index) {
+            if (logEvent) {
+              var color = logEvent.name.length > 5 ? 'geekblue' : 'green';
+              if (logEvent.name === 'Transfer') {
+                color = 'volcano';
+              }
+              var content = /*#__PURE__*/jsxRuntime.jsx(jsxRuntime.Fragment, {
+                children: /*#__PURE__*/jsxRuntime.jsx(antd.Descriptions, {
+                  size: 'small',
+                  column: 1,
+                  title: logEvent.name,
+                  bordered: true,
+                  children: Object.entries(logEvent).map(function (item) {
+                    return /*#__PURE__*/jsxRuntime.jsx(antd.Descriptions.Item, {
+                      label: item[0],
+                      children: item[1]
+                    }, item[0]);
+                  })
+                })
+              });
+              return /*#__PURE__*/jsxRuntime.jsx(antd.Popover, {
+                content: content,
+                placement: "rightBottom",
+                trigger: "click",
+                children: /*#__PURE__*/jsxRuntime.jsx(antd.Tag, {
+                  color: color,
+                  style: {
+                    cursor: 'pointer'
+                  },
+                  children: logEvent.name.toUpperCase()
+                }, index)
+              }, index);
+            }
+          })
+        });
+      }
+    }
+  }, {
+    title: '',
+    dataIndex: 'from',
+    key: 'from',
+    width: '3%',
+    render: function render(text, record) {
+      if (record.category === ('erc20' )) {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668495917/user_1_vd4ki1.png",
+          width: "40"
+        });
+      } else {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668495918/scroll_bkmays.png",
+          width: "40"
+        });
+      }
+    }
+  }, {
+    title: 'Interacted With',
+    dataIndex: 'to',
+    key: 'to',
+    width: '20%',
+    render: function render(text, record) {
+      var transfers = record.logEvents.filter(function (logEvent) {
+        if (logEvent) {
+          return logEvent.name === 'Transfer';
+        }
+      });
+      if (record.flow === 'Receive') {
+        return /*#__PURE__*/jsxRuntime.jsxs("div", {
+          style: {
+            fontSize: '1.3em'
+          },
+          children: [/*#__PURE__*/jsxRuntime.jsx("div", {
+            children: "From"
+          }), /*#__PURE__*/jsxRuntime.jsx("div", {
+            children: /*#__PURE__*/jsxRuntime.jsx("a", {
+              href: blockexplorerURL + 'address/' + record.from,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              children: truncateEthAddress__default["default"](record.from)
+            })
+          })]
+        });
+      } else if (record.flow === 'Transact') {
+        return /*#__PURE__*/jsxRuntime.jsxs("div", {
+          style: {
+            fontSize: '1.3em'
+          },
+          children: [/*#__PURE__*/jsxRuntime.jsx("div", {
+            children: "To"
+          }), /*#__PURE__*/jsxRuntime.jsx("div", {
+            children: /*#__PURE__*/jsxRuntime.jsx("a", {
+              href: blockexplorerURL + 'address/' + record.to,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              children: truncateEthAddress__default["default"](record.to)
+            })
+          })]
+        });
+      } else if (record.flow === 'Send') {
+        if (transfers[0]) {
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              fontSize: '1.3em'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("div", {
+              children: "To"
+            }), /*#__PURE__*/jsxRuntime.jsx("div", {
+              children: /*#__PURE__*/jsxRuntime.jsx("a", {
+                href: blockexplorerURL + 'address/' + transfers[0].param_to,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: truncateEthAddress__default["default"](String(transfers[0].param_to))
+              })
+            })]
+          });
+        } else if (record.category === 'ethTransfer') {
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              fontSize: '1.3em'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("div", {
+              children: "To"
+            }), /*#__PURE__*/jsxRuntime.jsx("div", {
+              children: /*#__PURE__*/jsxRuntime.jsx("a", {
+                href: blockexplorerURL + 'address/' + record.to,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: truncateEthAddress__default["default"](String(record.to))
+              })
+            })]
+          });
+        }
+      } else if (record.flow === 'Exchange') {
+        var _transfers$;
+        if ((_transfers$ = transfers[0]) !== null && _transfers$ !== void 0 && _transfers$.logo && transfers[0].param_value && transfers[0].contractDecimals) {
+          var _transfers$2;
+          var symbol = transfers[0].param_from === record.from ? '-' : '+';
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              display: 'flex'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+              alt: "",
+              src: (_transfers$2 = transfers[0]) === null || _transfers$2 === void 0 ? void 0 : _transfers$2.logo,
+              height: "50"
+            }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+              style: {
+                fontSize: '1.3em',
+                marginLeft: '3px'
+              },
+              children: [symbol, (Number(transfers[0].param_value) / Math.pow(10, transfers[0].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
+                children: "USDC"
+              })]
+            })]
+          });
+        }
+      }
+    }
+  }, {
+    title: '',
+    dataIndex: 'flow',
+    key: 'flow',
+    width: '5%',
+    render: function render(text, record) {
+      if (record.flow === 'Receive') {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668599379/right-arrow_1_owfvzh.png",
+          width: "60"
+        });
+      } else if (record.flow === 'Send') {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668599379/left-arrow_kxwpcx.png",
+          width: "60"
+        });
+      } else if (record.flow === 'Exchange') {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668492843/right-left_uom8y3.png",
+          width: "60"
+        });
+      } else {
+        return /*#__PURE__*/jsxRuntime.jsx("img", {
+          alt: "",
+          src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668599379/left-arrow_kxwpcx.png",
+          width: "60"
+        });
+      }
+    }
+  }, {
+    title: 'Token',
+    dataIndex: 'logEvents[0].name',
+    key: 'logEvents',
+    width: '15%',
+    render: function render(text, record) {
+      var transfers = record.logEvents.filter(function (logEvent) {
+        if (logEvent) {
+          return logEvent.name === 'Transfer';
+        }
+      });
+      if (record.category === 'erc20') {
+        var _record$logEvents$, _record$logEvents$2;
+        if ((_record$logEvents$ = record.logEvents[0]) !== null && _record$logEvents$ !== void 0 && _record$logEvents$.logo && record.logEvents[0].param_value && record.logEvents[0].contractDecimals) {
+          var symbol = record.flow === 'Receive' ? '+' : '-';
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              display: 'flex'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+              alt: "",
+              src: record.logEvents[0].logo,
+              height: "50"
+            }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+              style: {
+                fontSize: '1.3em',
+                marginLeft: '3px'
+              },
+              children: [symbol, (Number(record.logEvents[0].param_value) / Math.pow(10, record.logEvents[0].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
+                children: record.logEvents[0].ticker
+              })]
+            })]
+          });
+        } else if ((_record$logEvents$2 = record.logEvents[0]) !== null && _record$logEvents$2 !== void 0 && _record$logEvents$2.param_tokenId && record.logEvents[0].logo) {
+          var _symbol = record.flow === 'Receive' ? '+' : '-';
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              display: 'flex'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+              alt: "",
+              src: record.logEvents[0].logo,
+              height: "50"
+            }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+              style: {
+                fontSize: '1.3em',
+                marginLeft: '3px'
+              },
+              children: [_symbol, record.logEvents[0].param_tokenId, /*#__PURE__*/jsxRuntime.jsx("div", {
+                children: record.logEvents[0].ticker
+              })]
+            })]
+          });
+        }
+      } else if (record.category === 'ethTransfer') {
+        var _symbol2 = record.flow === 'Receive' ? '+' : '-';
+        return /*#__PURE__*/jsxRuntime.jsxs("div", {
+          style: {
+            display: 'flex'
+          },
+          children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+            alt: "",
+            src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668503933/0x0000000000000000000000000000000000000000_oinhk2.png",
+            height: "50"
+          }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              fontSize: '1.3em',
+              marginLeft: '3px'
+            },
+            children: [_symbol2, (Number(record.value) / Math.pow(10, 18)).toFixed(5), /*#__PURE__*/jsxRuntime.jsx("div", {
+              children: "ETH"
+            })]
+          })]
+        });
+      } else if (record.category === 'swap') {
+        var _transfers$3;
+        if ((_transfers$3 = transfers[1]) !== null && _transfers$3 !== void 0 && _transfers$3.logo && transfers[1].param_value && transfers[1].contractDecimals) {
+          var _transfers$4;
+          var _symbol3 = transfers[1].param_from !== record.from ? '+' : '-';
+          return /*#__PURE__*/jsxRuntime.jsxs("div", {
+            style: {
+              display: 'flex'
+            },
+            children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+              alt: "",
+              src: (_transfers$4 = transfers[1]) === null || _transfers$4 === void 0 ? void 0 : _transfers$4.logo,
+              height: "50"
+            }), /*#__PURE__*/jsxRuntime.jsxs("div", {
+              style: {
+                fontSize: '1.3em',
+                marginLeft: '3px'
+              },
+              children: [_symbol3, (Number(transfers[1].param_value) / Math.pow(10, transfers[1].contractDecimals)).toFixed(2), /*#__PURE__*/jsxRuntime.jsx("div", {
+                children: transfers[1].ticker
+              })]
+            })]
+          });
+        } else {
+          return /*#__PURE__*/jsxRuntime.jsxs("a", {
+            href: blockexplorerURL + 'tx/' + record.txnHash,
+            target: "_blank",
+            rel: "noopener noreferrer",
+            children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+              src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668603364/link_ykhdal.png",
+              height: "50"
+            }), ' ', "Learn more"]
+          });
+        }
+      } else {
+        return /*#__PURE__*/jsxRuntime.jsxs("a", {
+          href: blockexplorerURL + 'tx/' + record.txnHash,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          children: [/*#__PURE__*/jsxRuntime.jsx("img", {
+            src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668603364/link_ykhdal.png",
+            height: "50"
+          }), ' ', "Learn more"]
+        });
+      }
+    }
+  }, {
+    title: 'Gas Fee',
+    dataIndex: 'gasSpent',
+    key: 'gasSpent',
+    width: '10%',
+    render: function render(text, record) {
+      var gasFee = record.gasSpent * record.gasPrice / Math.pow(10, 18);
+      var gasFeeQuote = (gasFee * record.gasQuoteRate).toFixed(2);
+      return /*#__PURE__*/jsxRuntime.jsxs("div", {
+        style: {
+          fontSize: '1.3em'
+        },
+        children: [/*#__PURE__*/jsxRuntime.jsxs("p", {
+          children: [gasFee.toFixed(6), " ETH", ' ', /*#__PURE__*/jsxRuntime.jsx("img", {
+            alt: "",
+            src: "https://res.cloudinary.com/dl4murstw/image/upload/v1668511869/gas-station_ydpfe5.png",
+            height: "14"
+          })]
+        }), /*#__PURE__*/jsxRuntime.jsxs("p", {
+          children: ["($", gasFeeQuote, ")"]
+        })]
+      });
+    }
+  }, {
+    title: 'Transaction',
+    dataIndex: 'txnHash',
+    key: 'txnHash',
+    width: '10%',
+    render: function render(txnHash) {
+      return /*#__PURE__*/jsxRuntime.jsxs("a", {
+        style: {
+          fontSize: '1.3em'
+        },
+        href: blockexplorerURL + 'tx/' + txnHash,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        children: [' ', "View Transaction"]
+      });
+    }
+  }];
+};
+
+var Transactions = function Transactions(_ref) {
+  var chainId = _ref.chainId,
+    address = _ref.address;
+  var _useState = react.useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    txns = _useState2[0],
+    setTxns = _useState2[1];
+  var _useState3 = react.useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isLoading = _useState4[0],
+    setIsLoading = _useState4[1];
+  var _useState5 = react.useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    error = _useState6[0],
+    setError = _useState6[1];
+  var blockexplorerURL = blockExplorerURLs.filter(function (item) {
+    return parseInt(item.chainId) === parseInt(chainId);
+  })[0].url;
+  react.useEffect(function () {
+    if (address) {
+      fetchData();
+    }
+  }, [chainId, address]);
+  var fetchData = function fetchData() {
+    setError(false);
+    setIsLoading(true);
+    var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/");
+    getDataFromCovalentAPI(transactionsEndpoint).then(function (response) {
+      setIsLoading(false);
+      var transformedTransactions = transform(response.data.items.filter(function (txn) {
+        return txn.log_events.length < 20;
+      })); //remove spam
+
+      var categorizedTransactions = transformedTransactions.map(function (txn) {
+        return categorizeTransaction(txn, address);
+      });
+      setTxns(categorizedTransactions);
+    }).catch(function (e) {
+      return setError(true);
+    });
+  };
+  if (error) {
+    return /*#__PURE__*/jsxRuntime.jsx("p", {
+      children: " Unable to fetch data"
+    });
+  } else if (isLoading) {
+    return /*#__PURE__*/jsxRuntime.jsx(antd.Table, {
+      loading: true
+    });
+  } else if (!isLoading && txns) {
+    return /*#__PURE__*/jsxRuntime.jsx(antd.Table, {
+      dataSource: txns,
+      columns: columns(blockexplorerURL),
+      rowKey: "txnHash"
+    });
+  }
+};
+
 exports.ERC20Transfers = ERC20Transfers;
 exports.TokenBalances = TokenBalances;
 exports.TokenHolders = TokenHolders;
+exports.Transactions = Transactions;

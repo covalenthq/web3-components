@@ -138,4 +138,33 @@ function App() {
 }
 
 export default App;
-```  
+```
+
+### `<Transactions />`
+
+![Transactions demo](https://github.com/covalenthq/web3-components/blob/main/src/assets/transactions-rc-demo.png?raw=true)
+
+The `<Transactions />` component provides a complete and paginated table with all the transactions in descending chronological order including the type, methods, receiving address, token amount or NFT token Id and gas fees for a given wallet or contract `address` and `chainId`.
+
+#### Props:
+- `address`
+- `chainId`
+
+
+#### Sample code:
+```jsx
+import { Transactions } from '@covalenthq/web3-components';
+
+function App() {
+  return(
+    <div className="Transactions">
+      <Transactions
+        address="demo.eth"
+        chainId="1"
+      />
+    </div>
+  )
+}
+
+export default App;
+```
