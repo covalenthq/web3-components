@@ -22,6 +22,7 @@ Please refer to the [Covalent API reference](https://www.covalenthq.com/docs/api
 - [`<TokenBalances />`](#tokenbalances-)
 - [`<ERC20Transfers />`](#erc20transfers-)
 - [`<TokenHolders />`](#tokenholders-)
+- [`<Transactions />`](#transactions-)
 
 &nbsp;
 ---
@@ -139,6 +140,7 @@ function App() {
 
 export default App;
 ```
+---
 
 ### `<Transactions />`
 
