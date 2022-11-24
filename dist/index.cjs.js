@@ -690,8 +690,6 @@ var transform = function transform(transactions) {
   return transformedTransactions;
 };
 var extractMethods = function extractMethods(logEvents) {
-  console.log('extractmethod is reached');
-  console.log(logEvents);
   var methods = [];
   logEvents.map(function (logEvent) {
     if (logEvent.decoded) {
@@ -703,7 +701,6 @@ var extractMethods = function extractMethods(logEvents) {
 };
 var transformLogEvents = function transformLogEvents(logEvents) {
   var newLogEvents = logEvents.map(function (item) {
-    console.log(item.decoded);
     if (item.decoded) {
       var returnObject = {
         name: item.decoded.name,
@@ -730,7 +727,6 @@ var transformLogEvents = function transformLogEvents(logEvents) {
 
 var categorizeTransaction = function categorizeTransaction(txn, address) {
   var flow = txn.from.toLowerCase() !== address.toLowerCase() ? 'Receive' : 'Send';
-  console.log('flow', flow);
   if (isERC20(txn)) {
     return _objectSpread2(_objectSpread2({}, txn), {}, {
       category: 'erc20',
@@ -1278,7 +1274,7 @@ var columns = function columns(blockexplorerURL) {
 var Transactions = function Transactions(_ref) {
   var chainId = _ref.chainId,
     address = _ref.address;
-  var _useState = react.useState(undefined),
+  var _useState = react.useState([]),
     _useState2 = _slicedToArray(_useState, 2),
     txns = _useState2[0],
     setTxns = _useState2[1];
@@ -1293,23 +1289,29 @@ var Transactions = function Transactions(_ref) {
   var blockexplorerURL = blockExplorerURLs.filter(function (item) {
     return parseInt(item.chainId) === parseInt(chainId);
   })[0].url;
-  var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/");
   react.useEffect(function () {
-    getDataFromCovalentAPI(transactionsEndpoint).then(function (res) {
-      var transformedTransactions = transform(res.data.items.filter(function (txn) {
+    if (address) {
+      fetchData();
+    }
+  }, [chainId, address]);
+  var fetchData = function fetchData() {
+    setError(false);
+    setIsLoading(true);
+    var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/");
+    getDataFromCovalentAPI(transactionsEndpoint).then(function (response) {
+      setIsLoading(false);
+      var transformedTransactions = transform(response.data.items.filter(function (txn) {
         return txn.log_events.length < 20;
       })); //remove spam
 
       var categorizedTransactions = transformedTransactions.map(function (txn) {
         return categorizeTransaction(txn, address);
       });
-      setError(false);
-      setIsLoading(false);
       setTxns(categorizedTransactions);
-    }).catch(function () {
+    }).catch(function (e) {
       return setError(true);
     });
-  }, [address]);
+  };
   if (error) {
     return /*#__PURE__*/jsxRuntime.jsx("p", {
       children: " Unable to fetch data"

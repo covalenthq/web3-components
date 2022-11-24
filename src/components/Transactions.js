@@ -8,31 +8,38 @@ import { columns } from '../utils/columns'
 import { getDataFromCovalentAPI } from '../utils/api'
 
 const Transactions = ({ chainId, address }) => {
-  const [txns, setTxns] = useState(undefined)
+  const [txns, setTxns] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
   const blockexplorerURL = blockExplorerURLs.filter(
     (item) => parseInt(item.chainId) === parseInt(chainId)
   )[0].url
-  const transactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/`
 
   useEffect(() => {
+    if (address) {
+      fetchData()
+    }
+  }, [chainId, address])
+
+  const fetchData = () => {
+    setError(false)
+    setIsLoading(true)
+    const transactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/`
     getDataFromCovalentAPI(transactionsEndpoint)
-      .then((res) => {
+      .then((response) => {
+        setIsLoading(false)
         const transformedTransactions = transform(
-          res.data.items.filter((txn) => txn.log_events.length < 20)
+          response.data.items.filter((txn) => txn.log_events.length < 20)
         ) //remove spam
 
         const categorizedTransactions = transformedTransactions.map((txn) => {
           return categorizeTransaction(txn, address)
         })
-        setError(false)
-        setIsLoading(false)
         setTxns(categorizedTransactions)
       })
-      .catch(() => setError(true))
-  }, [address])
+      .catch((e) => setError(true))
+  }
 
   if (error) {
     return <p> Unable to fetch data</p>
