@@ -11,7 +11,7 @@
     "./dist"
   ],
   "repository": "https://github.com/covalenthq/web3-components",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "source": "src/index.js",
@@ -20,7 +20,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "antd": "^4.21.3",
+    "antd": "^5.0.3",
     "react-scripts": "5.0.1",
     "truncate-eth-address": "^1.0.2"
   },
@@ -29,7 +29,7 @@
     "build-watch": "rollup -c -w",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"  
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "eslintConfig": {
     "extends": [

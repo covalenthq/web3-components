@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import 'antd/dist/antd.min.css'
 import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
