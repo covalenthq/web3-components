@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { transform } from '../utils/transform'
 import { categorizeTransaction } from '../utils/categorize'
-import 'antd/dist/antd.css'
 import { Table } from 'antd'
 import { blockExplorerURLs } from '../utils/blockExplorerURLs'
 import { columns } from '../utils/columns'

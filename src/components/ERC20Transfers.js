@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Table, Popover, Button } from 'antd'
 import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import 'antd/dist/antd.min.css'
 import erc20TransfersHelper from '../utils/erc20TransfersHelper'
+import { blockExplorerURLs } from '../utils/blockExplorerURLs'
 import truncateEthAddress from 'truncate-eth-address'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
 const ERC20Transfers = ({ address, chainId }) => {
-  const blockexplorerURL = erc20TransfersHelper.blockExplorerURLs.filter(
+  const blockexplorerURL = blockExplorerURLs.filter(
     (item) => parseInt(item.chainId) === parseInt(chainId)
   )[0].url
   const [txnData, setTxnData] = useState([])
