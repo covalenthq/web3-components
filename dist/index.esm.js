@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Popover, Button, Descriptions, Tag } from 'antd';
+import { Table, Popover, Button, Descriptions, Tag, Select } from 'antd';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { InfoCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import truncateEthAddress from 'truncate-eth-address';
@@ -1319,4 +1319,53 @@ var Transactions = function Transactions(_ref) {
   }
 };
 
-export { ERC20Transfers, TokenBalances, TokenHolders, Transactions };
+var ChainSelector = function ChainSelector(_ref) {
+  var setChainName = _ref.setChainName;
+  var _useState = useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    chains = _useState2[0],
+    getChains = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    error = _useState4[0],
+    setError = _useState4[1];
+  useEffect(function () {
+    fetchData();
+  }, []);
+  var handleChange = function handleChange(value) {
+    setChainName(value);
+  };
+  var fetchData = function fetchData() {
+    setError(false);
+    var URL = "https://api.covalenthq.com/v1/chains/";
+    getDataFromCovalentAPI(URL).then(function (response) {
+      getChains(response.data.items);
+    }).catch(function (e) {
+      return setError(true);
+    });
+  };
+  var options = chains.map(function (chain) {
+    return {
+      label: chain.label,
+      value: chain.name
+    };
+  });
+  if (error) {
+    return /*#__PURE__*/jsx("p", {
+      children: " Unable to fetch chains"
+    });
+  } else if (chains) {
+    return /*#__PURE__*/jsx(Fragment, {
+      children: /*#__PURE__*/jsx(Select, {
+        defaultValue: "eth-mainnet",
+        style: {
+          width: 250
+        },
+        onChange: handleChange,
+        options: options
+      })
+    });
+  }
+};
+
+export { ChainSelector, ERC20Transfers, TokenBalances, TokenHolders, Transactions };

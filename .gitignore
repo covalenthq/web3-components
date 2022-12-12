@@ -8,6 +8,7 @@
 # testing
 /coverage
 *.tgz
+/sandbox
 
 # production
 /build
