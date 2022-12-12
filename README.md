@@ -170,3 +170,32 @@ function App() {
 
 export default App;
 ```
+
+---
+
+### `<ChainSelector/>`
+
+![Chain Selector](https://github.com/covalenthq/web3-components/blob/main/src/assets/chain-selector-list.png?raw=true)
+
+The `<ChainSelector />` component provides a dropdown menu with a complete list of all Covalent API supported blockchains. This component takes a callback function using the `setChainName` prop.   
+
+#### Props:
+- `setChainName`
+
+
+#### Sample code:
+```jsx
+import { ChainSelector } from '@covalenthq/web3-components';
+
+const [chainName, setChainName] = useState('eth-mainnet')
+
+function App() {
+  return(
+    <div className="ChainSelector">
+      <ChainSelector setChainName={setChainName} />
+    </div>
+  )
+}
+
+export default App;
+```
