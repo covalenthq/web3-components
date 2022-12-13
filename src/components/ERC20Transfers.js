@@ -7,10 +7,11 @@ import truncateEthAddress from 'truncate-eth-address'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const ERC20Transfers = ({ address, chainId }) => {
-  const blockexplorerURL = blockExplorerURLs.filter(
-    (item) => parseInt(item.chainId) === parseInt(chainId)
-  )[0].url
+const ERC20Transfers = ({ address, chainId, ascending = false, noLogs = false, quoteCurrency = 'USD' }) => {
+  const blockExplorer = blockExplorerURLs.filter(
+    (item) => (parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId)
+  )
+  const blockexplorerURL = (blockExplorer?.length) ? blockExplorer[0].url : 'https://blockscan.com/'
   const [txnData, setTxnData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -19,7 +20,7 @@ const ERC20Transfers = ({ address, chainId }) => {
     if (address) {
       fetchData()
     }
-  }, [address, chainId])
+  }, [address, chainId, ascending, noLogs, quoteCurrency])
 
   const handleImgError = (e) => {
     e.target.src = defaultLogo
@@ -28,7 +29,7 @@ const ERC20Transfers = ({ address, chainId }) => {
   const fetchData = () => {
     setError(false)
     setIsLoading(true)
-    const URL = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/`
+    const URL = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/?quote-currency=${quoteCurrency}&format=JSON&block-signed-at-asc=${ascending}&no-logs=${noLogs}`
     getDataFromCovalentAPI(URL)
       .then((response) => {
         const transfersData = erc20TransfersHelper.filterForTransfers(response)

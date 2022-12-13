@@ -3,7 +3,7 @@ import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const TokenBalances = ({ address, chainId }) => {
+const TokenBalances = ({ address, chainId, nft = true, noNFTFetch = true, quoteCurrency = 'USD' }) => {
   const [data, getData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -12,7 +12,7 @@ const TokenBalances = ({ address, chainId }) => {
     if (address) {
       fetchData()
     }
-  }, [address, chainId])
+  }, [address, chainId, nft, noNFTFetch, quoteCurrency])
 
   const handleImgError = (e) => {
     e.target.src = defaultLogo
@@ -21,7 +21,7 @@ const TokenBalances = ({ address, chainId }) => {
   const fetchData = () => {
     setError(false)
     setIsLoading(true)
-    const URL = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=true`
+    const URL = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=${quoteCurrency}&format=JSON&nft=${nft}&no-nft-fetch=${noNFTFetch}`
     getDataFromCovalentAPI(URL)
       .then((response) => {
         setIsLoading(false)

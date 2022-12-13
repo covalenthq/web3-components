@@ -3,7 +3,7 @@ import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize = 99999 }) => {
+const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize = 99999, quoteCurrency = 'USD' }) => {
   const [data, getData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -12,7 +12,7 @@ const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize 
     if (tokenAddress) {
       fetchData()
     }
-  }, [tokenAddress, chainId, blockHeight, pageSize])
+  }, [tokenAddress, chainId, blockHeight, pageSize, quoteCurrency])
 
   const handleImgError = (e) => {
     e.target.src = defaultLogo
@@ -21,7 +21,7 @@ const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize 
   const fetchData = () => {
     setError(false)
     setIsLoading(true)
-    const URL = `https://api.covalenthq.com/v1/${chainId}/tokens/${tokenAddress}/token_holders/?quote-currency=USD&format=JSON&block-height=${blockHeight}&page-size=${pageSize}`
+    const URL = `https://api.covalenthq.com/v1/${chainId}/tokens/${tokenAddress}/token_holders/?quote-currency=${quoteCurrency}&format=JSON&block-height=${blockHeight}&page-size=${pageSize}`
     getDataFromCovalentAPI(URL)
       .then((response) => {
         setIsLoading(false)

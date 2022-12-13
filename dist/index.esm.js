@@ -101,7 +101,13 @@ var getDataFromCovalentAPI = function getDataFromCovalentAPI(URL) {
 
 var TokenBalances = function TokenBalances(_ref) {
   var address = _ref.address,
-    chainId = _ref.chainId;
+    chainId = _ref.chainId,
+    _ref$nft = _ref.nft,
+    nft = _ref$nft === void 0 ? true : _ref$nft,
+    _ref$noNFTFetch = _ref.noNFTFetch,
+    noNFTFetch = _ref$noNFTFetch === void 0 ? true : _ref$noNFTFetch,
+    _ref$quoteCurrency = _ref.quoteCurrency,
+    quoteCurrency = _ref$quoteCurrency === void 0 ? 'USD' : _ref$quoteCurrency;
   var _useState = useState([]),
     _useState2 = _slicedToArray(_useState, 2),
     data = _useState2[0],
@@ -118,14 +124,14 @@ var TokenBalances = function TokenBalances(_ref) {
     if (address) {
       fetchData();
     }
-  }, [address, chainId]);
+  }, [address, chainId, nft, noNFTFetch, quoteCurrency]);
   var handleImgError = function handleImgError(e) {
     e.target.src = img;
   };
   var fetchData = function fetchData() {
     setError(false);
     setIsLoading(true);
-    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=true");
+    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/balances_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&nft=").concat(nft, "&no-nft-fetch=").concat(noNFTFetch);
     getDataFromCovalentAPI(URL).then(function (response) {
       setIsLoading(false);
       getData(response.data.items);
@@ -386,109 +392,116 @@ var erc20TransfersHelper = {
 };
 
 var blockExplorerURLs = [{
-  chainId: 1,
+  chainId: [1, 'eth-mainnet'],
   url: 'https://etherscan.io/'
 }, {
-  chainId: 42,
-  url: 'https://kovan.etherscan.io/'
+  chainId: [5, 'eth-goerli'],
+  url: 'https://goerli.etherscan.io/'
 }, {
-  chainId: 137,
+  chainId: [137, 'matic-mainnet'],
   url: 'https://polygonscan.com/'
 }, {
-  chainId: 80001,
+  chainId: [80001, 'matic-mumbai'],
   url: 'https://mumbai.polygonscan.com/'
 }, {
-  chainId: 43114,
+  chainId: [43114, 'avalanche-mainnet'],
   url: 'https://snowtrace.io/'
 }, {
-  chainId: 43113,
+  chainId: [43113, 'avalanche-testnet'],
   url: 'https://testnet.snowtrace.io/'
 }, {
-  chainId: 56,
+  chainId: [56, 'bsc-mainnet'],
   url: 'https://www.bscscan.com/'
 }, {
-  chainId: 97,
+  chainId: [97, 'bsc-testnet'],
   url: 'https://testnet.bscscan.com/'
 }, {
-  chainId: 1284,
+  chainId: [1284, 'moonbeam-mainnet'],
   url: 'https://moonscan.io/'
 }, {
-  chainId: 1287,
+  chainId: [1287, 'moonbeam-moonbase-alpha'],
   url: 'https://moonbase-blockscout.testnet.moonbeam.network/'
 }, {
-  chainId: 1285,
+  chainId: [1285, 'moonbeam-moonriver'],
   url: 'https://blockscout.moonriver.moonbeam.network/'
 }, {
-  chainId: 30,
+  chainId: [30, 'rsk-mainnet'],
   url: 'https://explorer.rsk.co/'
 }, {
-  chainId: 31,
+  chainId: [31, 'rsk-testnet'],
   url: 'https://explorer.testnet.rsk.co/'
 }, {
-  chainId: 42161,
+  chainId: [42161, 'arbitrum-mainnet'],
   url: 'https://arbiscan.io/'
 }, {
-  chainId: 421611,
+  chainId: [421611, 'arbitrum-testnet'],
   url: 'https://testnet.arbiscan.io/'
 }, {
-  chainId: 250,
+  chainId: [250, 'fantom-mainnet'],
   url: 'https://explorer.fantom.network/'
 }, {
-  chainId: 4002,
+  chainId: [4002, 'fantom-testnet'],
   url: 'https://testnet.ftmscan.com/'
 }, {
-  chainId: 11297108109,
+  chainId: [11297108109, 'palm-mainnet'],
   url: 'https://explorer.palm.io/'
 }, {
-  chainId: 11297108099,
+  chainId: [11297108099, 'palm-testnet'],
   url: 'https://blockscout.com/poa/sokol'
 }, {
-  chainId: 8217,
+  chainId: [8217, 'klaytn-mainnet'],
   url: 'https://scope.klaytn.com/'
 }, {
-  chainId: 128,
+  chainId: [128, 'heco-mainnet'],
   url: 'https://www.hecoinfo.com/'
 }, {
-  chainId: 256,
+  chainId: [256, 'heco-testnet'],
   url: 'https://scan-testnet.hecochain.com/home/index'
 }, {
-  chainId: 2020,
+  chainId: [2020, 'axie-mainnet'],
   url: 'https://explorer.roninchain.com/'
 }, {
-  chainId: 9001,
+  chainId: [9001, 'evmos-mainnet'],
   url: 'https://evm.evmos.org/'
 }, {
-  chainId: 9000,
+  chainId: [9000, 'evmos-testnet'],
   url: 'https://evm.evmos.dev/'
 }, {
-  chainId: 592,
+  chainId: [592, 'astar-mainnet'],
   url: 'https://astar.subscan.io/'
 }, {
-  chainId: 336,
+  chainId: [336, 'astar-shiden'],
   url: 'https://shiden.subscan.io/'
 }, {
-  chainId: 4689,
+  chainId: [4689, 'iotex-mainnet'],
   url: 'https://iotexscan.io/'
 }, {
-  chainId: 4690,
+  chainId: [4690, 'iotex-testnet'],
   url: 'https://testnet.iotexscan.io/'
 }, {
-  chainId: 1666600000,
+  chainId: [1666600000, 'harmony-mainnet'],
   url: 'https://explorer.harmony.one/'
 }, {
-  chainId: 1666700000,
+  chainId: [1666700000, 'harmony-testnet'],
   url: 'https://explorer.pops.one/'
 }, {
-  chainId: 25,
+  chainId: [25, 'cronos-mainnet'],
   url: 'https://cronoscan.com/'
 }];
 
 var ERC20Transfers = function ERC20Transfers(_ref) {
   var address = _ref.address,
-    chainId = _ref.chainId;
-  var blockexplorerURL = blockExplorerURLs.filter(function (item) {
-    return parseInt(item.chainId) === parseInt(chainId);
-  })[0].url;
+    chainId = _ref.chainId,
+    _ref$ascending = _ref.ascending,
+    ascending = _ref$ascending === void 0 ? false : _ref$ascending,
+    _ref$noLogs = _ref.noLogs,
+    noLogs = _ref$noLogs === void 0 ? false : _ref$noLogs,
+    _ref$quoteCurrency = _ref.quoteCurrency,
+    quoteCurrency = _ref$quoteCurrency === void 0 ? 'USD' : _ref$quoteCurrency;
+  var blockExplorer = blockExplorerURLs.filter(function (item) {
+    return parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId;
+  });
+  var blockexplorerURL = blockExplorer !== null && blockExplorer !== void 0 && blockExplorer.length ? blockExplorer[0].url : 'https://blockscan.com/';
   var _useState = useState([]),
     _useState2 = _slicedToArray(_useState, 2),
     txnData = _useState2[0],
@@ -505,14 +518,14 @@ var ERC20Transfers = function ERC20Transfers(_ref) {
     if (address) {
       fetchData();
     }
-  }, [address, chainId]);
+  }, [address, chainId, ascending, noLogs, quoteCurrency]);
   var handleImgError = function handleImgError(e) {
     e.target.src = img;
   };
   var fetchData = function fetchData() {
     setError(false);
     setIsLoading(true);
-    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/");
+    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-signed-at-asc=").concat(ascending, "&no-logs=").concat(noLogs);
     getDataFromCovalentAPI(URL).then(function (response) {
       var transfersData = erc20TransfersHelper.filterForTransfers(response);
       var transfers = erc20TransfersHelper.pruneTransfers(transfersData, address);
@@ -653,7 +666,9 @@ var TokenHolders = function TokenHolders(_ref) {
     _ref$blockHeight = _ref.blockHeight,
     blockHeight = _ref$blockHeight === void 0 ? 'latest' : _ref$blockHeight,
     _ref$pageSize = _ref.pageSize,
-    pageSize = _ref$pageSize === void 0 ? 99999 : _ref$pageSize;
+    pageSize = _ref$pageSize === void 0 ? 99999 : _ref$pageSize,
+    _ref$quoteCurrency = _ref.quoteCurrency,
+    quoteCurrency = _ref$quoteCurrency === void 0 ? 'USD' : _ref$quoteCurrency;
   var _useState = useState([]),
     _useState2 = _slicedToArray(_useState, 2),
     data = _useState2[0],
@@ -670,14 +685,14 @@ var TokenHolders = function TokenHolders(_ref) {
     if (tokenAddress) {
       fetchData();
     }
-  }, [tokenAddress, chainId, blockHeight, pageSize]);
+  }, [tokenAddress, chainId, blockHeight, pageSize, quoteCurrency]);
   var handleImgError = function handleImgError(e) {
     e.target.src = img;
   };
   var fetchData = function fetchData() {
     setError(false);
     setIsLoading(true);
-    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/tokens/").concat(tokenAddress, "/token_holders/?quote-currency=USD&format=JSON&block-height=").concat(blockHeight, "&page-size=").concat(pageSize);
+    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/tokens/").concat(tokenAddress, "/token_holders/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-height=").concat(blockHeight, "&page-size=").concat(pageSize);
     getDataFromCovalentAPI(URL).then(function (response) {
       setIsLoading(false);
       getData(response.data.items);
@@ -1262,8 +1277,16 @@ var columns = function columns(blockexplorerURL) {
 };
 
 var Transactions = function Transactions(_ref) {
-  var chainId = _ref.chainId,
-    address = _ref.address;
+  var address = _ref.address,
+    chainId = _ref.chainId,
+    _ref$ascending = _ref.ascending,
+    ascending = _ref$ascending === void 0 ? false : _ref$ascending,
+    _ref$noLogs = _ref.noLogs,
+    noLogs = _ref$noLogs === void 0 ? false : _ref$noLogs,
+    _ref$pageSize = _ref.pageSize,
+    pageSize = _ref$pageSize === void 0 ? 99999 : _ref$pageSize,
+    _ref$quoteCurrency = _ref.quoteCurrency,
+    quoteCurrency = _ref$quoteCurrency === void 0 ? 'USD' : _ref$quoteCurrency;
   var _useState = useState([]),
     _useState2 = _slicedToArray(_useState, 2),
     txns = _useState2[0],
@@ -1276,18 +1299,19 @@ var Transactions = function Transactions(_ref) {
     _useState6 = _slicedToArray(_useState5, 2),
     error = _useState6[0],
     setError = _useState6[1];
-  var blockexplorerURL = blockExplorerURLs.filter(function (item) {
-    return parseInt(item.chainId) === parseInt(chainId);
-  })[0].url;
+  var blockExplorer = blockExplorerURLs.filter(function (item) {
+    return parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId;
+  });
+  var blockexplorerURL = blockExplorer !== null && blockExplorer !== void 0 && blockExplorer.length ? blockExplorer[0].url : 'https://blockscan.com/';
   useEffect(function () {
     if (address) {
       fetchData();
     }
-  }, [chainId, address]);
+  }, [address, chainId, ascending, noLogs, pageSize, quoteCurrency]);
   var fetchData = function fetchData() {
     setError(false);
     setIsLoading(true);
-    var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/");
+    var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-signed-at-asc=").concat(ascending, "&no-logs=").concat(noLogs, "&page-size=").concat(pageSize);
     getDataFromCovalentAPI(transactionsEndpoint).then(function (response) {
       setIsLoading(false);
       var transformedTransactions = transform(response.data.items.filter(function (txn) {

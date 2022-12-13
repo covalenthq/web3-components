@@ -6,25 +6,26 @@ import { blockExplorerURLs } from '../utils/blockExplorerURLs'
 import { columns } from '../utils/columns'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const Transactions = ({ chainId, address }) => {
+const Transactions = ({ address, chainId, ascending = false, noLogs = false, pageSize = 99999, quoteCurrency = 'USD' }) => {
   const [txns, setTxns] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
-  const blockexplorerURL = blockExplorerURLs.filter(
-    (item) => parseInt(item.chainId) === parseInt(chainId)
-  )[0].url
+  const blockExplorer = blockExplorerURLs.filter(
+    (item) => (parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId)
+  )
+  const blockexplorerURL = (blockExplorer?.length) ? blockExplorer[0].url : 'https://blockscan.com/'
 
   useEffect(() => {
     if (address) {
       fetchData()
     }
-  }, [chainId, address])
+  }, [address, chainId, ascending, noLogs, pageSize, quoteCurrency])
 
   const fetchData = () => {
     setError(false)
     setIsLoading(true)
-    const transactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/`
+    const transactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/?quote-currency=${quoteCurrency}&format=JSON&block-signed-at-asc=${ascending}&no-logs=${noLogs}&page-size=${pageSize}`
     getDataFromCovalentAPI(transactionsEndpoint)
       .then((response) => {
         setIsLoading(false)

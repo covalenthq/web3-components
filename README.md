@@ -23,6 +23,7 @@ Please refer to the [Covalent API reference](https://www.covalenthq.com/docs/api
 - [`<ERC20Transfers />`](#erc20transfers-)
 - [`<TokenHolders />`](#tokenholders-)
 - [`<Transactions />`](#transactions-)
+- [`<ChainSelector />`](#chainselector-)
 
 &nbsp;
 ---
@@ -33,9 +34,14 @@ Please refer to the [Covalent API reference](https://www.covalenthq.com/docs/api
 
 The `<TokenBalances />` component provides a complete and paginated balances table with all the ERC20 tokens and NFTs for a given wallet `address` and `chainId`.
 
-#### Props:
+#### Required Props:
 - `address`
 - `chainId`
+
+#### Optional Props:
+- `nft`: Defaults to `true`. Set to `false` to omit fetching NFTs.
+- `noNFTFetch`: Defaults to `true`. Set to `false` to fetch all the NFT metadata, which may take some time.
+- `quoteCurrency`: Defaults to `USD`. Visit the [API Reference](https://www.covalenthq.com/docs/api/#/0/0/USD/1) to see the full list of quote currency options.
 
 
 #### Sample code:
@@ -63,9 +69,15 @@ export default App;
 
 The ERC20Transfers component returns a paginated list of all the ERC20 token transfers of a wallet address on a particular chain. It takes an `address` and `chainId` as inputs and uses the [`Get Transactions for Address`](https://www.covalenthq.com/docs/api/#/0/Get%20transactions%20for%20address/USD/1) endpoint.
 
-#### Props:
+#### Required Props:
 - `address`  
-- `chainId`  
+- `chainId`
+
+#### Optional Props:
+- `ascending`: Defaults to `false` and provides the most recent transfer first. Set to `true` to get transfers in chronological order.
+- `noLogs`: Defaults to `false`. Set to `true` to omit fetching decoded event logs.
+- `quoteCurrency`: Defaults to `USD`. Visit the [API Reference](https://www.covalenthq.com/docs/api/#/0/0/USD/1) to see the full list of quote currency options.
+
 
 #### Sample code:
 ``` jsx
@@ -116,11 +128,13 @@ export default App;
 
 The `<TokenHolders />` component provides a complete and paginated token holders table with all the wallet addresses and balances/token IDs for a given ERC20 token or NFT collection `tokenAddress` and `chainId`.
 
-#### Props:
+#### Required Props:
 - `tokenAddress`
 - `chainId`
-- `blockHeight` - (optional, defaults to: `latest`)
-- `pageSize` - (optional, defaults to: `99999`)
+
+#### Optional Props:
+- `blockHeight`: Defaults to `latest`. Specify a block height to fetch all the token holders as of that height.
+- `pageSize`: Defaults to `99999`.
 
 
 #### Sample code:
@@ -148,9 +162,15 @@ export default App;
 
 The `<Transactions />` component provides a complete and paginated table with all the transactions in descending chronological order including the type, methods, receiving address, token amount or NFT token Id and gas fees for a given wallet or contract `address` and `chainId`.
 
-#### Props:
+#### Required Props:
 - `address`
 - `chainId`
+
+#### Optional Props:
+- `ascending`: Defaults to `false` and provides the most recent transfer first. Set to `true` to get transfers in chronological order.
+- `noLogs`: Defaults to `false`. Set to `true` to omit fetching decoded event logs.
+- `pageSize`: Defaults to `99999`.
+- `quoteCurrency`: Defaults to `USD`. Visit the [API Reference](https://www.covalenthq.com/docs/api/#/0/0/USD/1) to see the full list of quote currency options.
 
 
 #### Sample code:
@@ -179,7 +199,7 @@ export default App;
 
 The `<ChainSelector />` component provides a dropdown menu with a complete list of all Covalent API supported blockchains. This component takes a callback function using the `setChainName` prop.   
 
-#### Props:
+#### Required Props:
 - `setChainName`
 
 
