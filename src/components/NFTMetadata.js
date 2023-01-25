@@ -91,7 +91,7 @@ export function NFTMetadata({
   if (animated) audio = false
   if (audio) animated = false
 
-  const [data, getData] = useState([])
+  const [data, getData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -101,9 +101,6 @@ export function NFTMetadata({
     }
   }, [contractAddress, tokenId])
 
-  useEffect(() => {
-    console.log(data)
-  }, [isLoading])
   const fetchData = () => {
     setError(false)
     setIsLoading(true)
@@ -127,9 +124,11 @@ export function NFTMetadata({
         <Alert message="Error" description="Unable to fetch data" type="error" showIcon />
       </Card>
     )
-  } else if (isLoading) {
+  }
+  if (isLoading && data == null) {
     return <Card loading={true} />
-  } else if (!isLoading && data.nft_data !== undefined) {
+  }
+  if (!isLoading && data != null) {
     return (
       <Card
         title={
