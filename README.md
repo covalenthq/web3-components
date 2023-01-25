@@ -24,6 +24,7 @@ Please refer to the [Covalent API reference](https://www.covalenthq.com/docs/api
 - [`<TokenHolders />`](#tokenholders-)
 - [`<Transactions />`](#transactions-)
 - [`<ChainSelector />`](#chainselector-)
+- [`<NFTMetadata />`](#NFTMetadata-)
 
 &nbsp;
 ---
@@ -220,12 +221,11 @@ function App() {
 export default App;
 ```
 ---
-
 ### `<NFTMetadata />`
 
 ![lucasespinosa28 github io_web3-nft-component_iframe html_args= globals=backgrounds value_!hex(F8F8F8) id=nft--image viewMode=story (1)](https://user-images.githubusercontent.com/52639395/214548089-798b3e71-1077-498b-97bd-7fe58038bc44.png)
 
-the ```<NFTMetadata />```` is a component that helps you to display NFT and it supports **video** and **audio** NFTs, in the Documation on storybook have more examples em every Props configuration.
+the ```<NFTMetadata />``` is a component that helps you to display NFT and it supports **video** and **audio** NFTs, in the Documation on storybook have more examples em every Props configuration.
 
 #### [Documentation](https://lucasespinosa28.github.io/web3-nft-component/?path=/docs/nft--image)
 .   
