@@ -3,7 +3,13 @@ import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize = 99999, quoteCurrency = 'USD' }) => {
+const TokenHolders = ({
+  tokenAddress,
+  chainId,
+  blockHeight = 'latest',
+  pageSize = 99999,
+  quoteCurrency = 'USD'
+}) => {
   const [data, getData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)

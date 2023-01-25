@@ -7,11 +7,17 @@ import truncateEthAddress from 'truncate-eth-address'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const ERC20Transfers = ({ address, chainId, ascending = false, noLogs = false, quoteCurrency = 'USD' }) => {
+const ERC20Transfers = ({
+  address,
+  chainId,
+  ascending = false,
+  noLogs = false,
+  quoteCurrency = 'USD'
+}) => {
   const blockExplorer = blockExplorerURLs.filter(
-    (item) => (parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId)
+    (item) => parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId
   )
-  const blockexplorerURL = (blockExplorer?.length) ? blockExplorer[0].url : 'https://blockscan.com/'
+  const blockexplorerURL = blockExplorer?.length ? blockExplorer[0].url : 'https://blockscan.com/'
   const [txnData, setTxnData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -66,7 +72,8 @@ const ERC20Transfers = ({ address, chainId, ascending = false, noLogs = false, q
             <a
               href={blockexplorerURL + 'address/' + text}
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               {truncateEthAddress(text)}
             </a>
           )

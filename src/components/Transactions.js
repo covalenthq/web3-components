@@ -6,15 +6,22 @@ import { blockExplorerURLs } from '../utils/blockExplorerURLs'
 import { columns } from '../utils/columns'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const Transactions = ({ address, chainId, ascending = false, noLogs = false, pageSize = 99999, quoteCurrency = 'USD' }) => {
+const Transactions = ({
+  address,
+  chainId,
+  ascending = false,
+  noLogs = false,
+  pageSize = 99999,
+  quoteCurrency = 'USD'
+}) => {
   const [txns, setTxns] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
   const blockExplorer = blockExplorerURLs.filter(
-    (item) => (parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId)
+    (item) => parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId
   )
-  const blockexplorerURL = (blockExplorer?.length) ? blockExplorer[0].url : 'https://blockscan.com/'
+  const blockexplorerURL = blockExplorer?.length ? blockExplorer[0].url : 'https://blockscan.com/'
 
   useEffect(() => {
     if (address) {
