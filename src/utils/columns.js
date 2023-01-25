@@ -113,7 +113,8 @@ const columns = (blockexplorerURL) => [
               <a
                 href={blockexplorerURL + 'address/' + record.from}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 {truncateEthAddress(record.from)}
               </a>
             </div>
@@ -127,7 +128,8 @@ const columns = (blockexplorerURL) => [
               <a
                 href={blockexplorerURL + 'address/' + record.to}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 {truncateEthAddress(record.to)}
               </a>
             </div>
@@ -142,7 +144,8 @@ const columns = (blockexplorerURL) => [
                 <a
                   href={blockexplorerURL + 'address/' + transfers[0].param_to}
                   target="_blank"
-                  rel="noopener noreferrer">
+                  rel="noopener noreferrer"
+                >
                   {truncateEthAddress(String(transfers[0].param_to))}
                 </a>
               </div>
@@ -156,7 +159,8 @@ const columns = (blockexplorerURL) => [
                 <a
                   href={blockexplorerURL + 'address/' + record.to}
                   target="_blank"
-                  rel="noopener noreferrer">
+                  rel="noopener noreferrer"
+                >
                   {truncateEthAddress(String(record.to))}
                 </a>
               </div>
@@ -303,7 +307,8 @@ const columns = (blockexplorerURL) => [
             <a
               href={blockexplorerURL + 'tx/' + record.txnHash}
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               <img
                 src="https://res.cloudinary.com/dl4murstw/image/upload/v1668603364/link_ykhdal.png"
                 height="50"
@@ -317,7 +322,8 @@ const columns = (blockexplorerURL) => [
           <a
             href={blockexplorerURL + 'tx/' + record.txnHash}
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             <img
               src="https://res.cloudinary.com/dl4murstw/image/upload/v1668603364/link_ykhdal.png"
               height="50"
@@ -362,7 +368,8 @@ const columns = (blockexplorerURL) => [
           style={{ fontSize: '1.3em' }}
           href={blockexplorerURL + 'tx/' + txnHash}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+        >
           {' '}
           View Transaction
         </a>

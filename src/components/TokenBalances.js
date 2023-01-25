@@ -1,9 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Table } from 'antd'
 import defaultLogo from '../assets/default-logo.png'
 import { getDataFromCovalentAPI } from '../utils/api'
 
-const TokenBalances = ({ address, chainId, nft = true, noNFTFetch = true, quoteCurrency = 'USD' }) => {
+const TokenBalances = ({
+  address,
+  chainId,
+  nft = true,
+  noNFTFetch = true,
+  quoteCurrency = 'USD'
+}) => {
   const [data, getData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
