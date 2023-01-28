@@ -6,6 +6,10 @@ import ChainSelector from './components/ChainSelector/ChainSelector'
 import NFTCard from './components/NFTCard/NFTCard'
 import NFTTransactions from './components/NFTTransactions/NFTTransactions'
 import SwapPool from './components/SwapPool/SwapPool'
+import BlockNumber from './components/BlockNumber/BlockNumber'
+import SwapTxnsAccount from './components/SwapTxnsAccount/SwapTxnsAccount'
+import SwapTxnsExchange from './components/SwapTxnsExchange/SwapTxnsExchange'
+import SwapTxnsToken from './components/SwapTxnsToken/SwapTxnsToken'
 
 export {
   TokenBalances,
@@ -15,5 +19,9 @@ export {
   ChainSelector,
   NFTCard,
   NFTTransactions,
-  SwapPool
+  SwapPool,
+  BlockNumber,
+  SwapTxnsAccount,
+  SwapTxnsExchange,
+  SwapTxnsToken
 }

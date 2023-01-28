@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { transform } from '../utils/transform'
-import { categorizeTransaction } from '../utils/categorize'
+import { transform } from '../../utils/transform'
+import { categorizeTransaction } from '../../utils/categorize'
 import { Table } from 'antd'
-import { blockExplorerURLs } from '../utils/blockExplorerURLs'
-import { columns } from '../utils/columns'
-import { getDataFromCovalentAPI } from '../utils/api'
+import { blockExplorerURLs } from '../../utils/blockExplorerURLs'
+import { columns } from '../../utils/columns'
+import { getDataFromCovalentAPI } from '../../utils/api'
 
 const Transactions = ({
   address,

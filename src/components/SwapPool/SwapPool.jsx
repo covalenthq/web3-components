@@ -23,8 +23,8 @@ const SwapPool = ({ chainId, swapName }) => {
     setError(false)
     setIsLoading(true)
 
-    const nftTransactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/xy=k/${swapName}/pools/`
-    getDataFromCovalentAPI(nftTransactionsEndpoint)
+    const swapPoolEndpoint = `https://api.covalenthq.com/v1/${chainId}/xy=k/${swapName}/pools/`
+    getDataFromCovalentAPI(swapPoolEndpoint)
       .then((response) => {
         console.log(response.data.items)
         const transformedResponse = transformedPool(response.data.items)

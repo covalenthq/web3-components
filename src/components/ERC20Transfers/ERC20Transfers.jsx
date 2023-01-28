@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Table, Popover, Button } from 'antd'
 import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import erc20TransfersHelper from '../utils/erc20TransfersHelper'
-import { blockExplorerURLs } from '../utils/blockExplorerURLs'
+import erc20TransfersHelper from '../../utils/erc20TransfersHelper'
+import { blockExplorerURLs } from '../../utils/blockExplorerURLs'
 import truncateEthAddress from 'truncate-eth-address'
-import defaultLogo from '../assets/default-logo.png'
-import { getDataFromCovalentAPI } from '../utils/api'
+import defaultLogo from '../../assets/default-logo.png'
+import { getDataFromCovalentAPI } from '../../utils/api'
 
 const ERC20Transfers = ({
   address,
