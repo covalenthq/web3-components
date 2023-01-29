@@ -27,9 +27,9 @@ const SwapTxnsAccount = ({ chainId, swapName, accountAddress }) => {
     const swapTransactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/xy=k/${swapName}/address/${accountAddress}/transactions/?format=JSON`
     getDataFromCovalentAPI(swapTransactionsEndpoint)
       .then((response) => {
-        const transformed = transformSwapTxnExchange(response.data.items)
+        const filtered = response.data.items.filter((r) => r.token_0 != null && r.token_1 != null)
+        const transformed = transformSwapTxnExchange(filtered)
         setswapTxns(transformed)
-        console.log(response.data)
         setIsLoading(false)
       })
       .catch(() => setError(true))
@@ -49,7 +49,30 @@ const SwapTxnsAccount = ({ chainId, swapName, accountAddress }) => {
       width: '38%',
       render: (text, record) =>
         record.act === 'SWAP' ? (
-          <p> SWAP</p>
+          <p>
+            Swapped{' '}
+            <a
+              href={blockexplorerURL + 'address/' + record.swapTokenIn.token.contract_address}
+              target="_blank"
+              rel="noopener noreferrer">
+              {record.swapTokenIn.token.contract_ticker_symbol}
+            </a>{' '}
+            {(
+              record.swapTokenIn.amount /
+              10 ** record.swapTokenIn.token.contract_decimals
+            ).toPrecision(6)}{' '}
+            for{' '}
+            <a
+              href={blockexplorerURL + 'address/' + record.swapTokenOut.token.contract_address}
+              target="_blank"
+              rel="noopener noreferrer">
+              {record.swapTokenOut.token.contract_ticker_symbol}
+            </a>{' '}
+            {(
+              record.swapTokenOut.amount /
+              10 ** record.swapTokenOut.token.contract_decimals
+            ).toPrecision(6)}
+          </p>
         ) : record.act === 'ADD_LIQUIDITY' ? (
           <p>
             Supplied Liquidity with{' '}
@@ -87,21 +110,6 @@ const SwapTxnsAccount = ({ chainId, swapName, accountAddress }) => {
             {(record.amount1 / 10 ** record.token1.contract_decimals).toPrecision(6)}
           </p>
         )
-      // record.act === 'SWAP' ? (
-      //   <p>
-      //     {record.swapAmount0} {record.swapAmount1}
-      //   </p>
-      // ) : (
-      //   <p>kldjsnvk</p>
-      // )
-      // console.log(record)
-      // if (record.act === 'SWAP') {
-      //   ;<p>
-      //     {record.swapAmount0} {record.swapAmount1}
-      //   </p>
-      // } else
-      // if (record.act == 'ADD_LIQUIDITY') <p>Add</p>
-      // else if (record.act == 'REMOVE_LIQUIDITY')
     },
     {
       title: 'ACT',

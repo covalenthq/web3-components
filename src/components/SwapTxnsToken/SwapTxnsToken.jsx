@@ -33,9 +33,8 @@ const SwapTxnsToken = ({
     const swapTransactionsEndpoint = `https://api.covalenthq.com/v1/${chainId}/xy=k/${swapName}/tokens/address/${tokenAddress}/transactions/?quote-currency=${quoteCurrency}&format=JSON&&page-size=${pageSize}`
     getDataFromCovalentAPI(swapTransactionsEndpoint)
       .then((response) => {
-        console.log(response.data)
-        const transform = transformSwapTxnExchange(response.data.items)
-        console.log(transform)
+        const filtered = response.data.items.filter((r) => r.token_0 != null && r.token_1 != null)
+        const transform = transformSwapTxnExchange(filtered)
         setswapTxns(transform)
         setIsLoading(false)
       })
@@ -56,7 +55,30 @@ const SwapTxnsToken = ({
       width: '38%',
       render: (text, record) =>
         record.act === 'SWAP' ? (
-          <p> SWAP</p>
+          <p>
+            Swapped{' '}
+            <a
+              href={blockexplorerURL + 'address/' + record.swapTokenIn.token.contract_address}
+              target="_blank"
+              rel="noopener noreferrer">
+              {record.swapTokenIn.token.contract_ticker_symbol}
+            </a>{' '}
+            {(
+              record.swapTokenIn.amount /
+              10 ** record.swapTokenIn.token.contract_decimals
+            ).toPrecision(6)}{' '}
+            for{' '}
+            <a
+              href={blockexplorerURL + 'address/' + record.swapTokenOut.token.contract_address}
+              target="_blank"
+              rel="noopener noreferrer">
+              {record.swapTokenOut.token.contract_ticker_symbol}
+            </a>{' '}
+            {(
+              record.swapTokenOut.amount /
+              10 ** record.swapTokenOut.token.contract_decimals
+            ).toPrecision(6)}
+          </p>
         ) : record.act === 'ADD_LIQUIDITY' ? (
           <p>
             Supplied Liquidity with{' '}

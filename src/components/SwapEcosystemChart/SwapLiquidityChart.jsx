@@ -2,7 +2,7 @@ import { getDataFromCovalentAPI } from '../../utils/api'
 import { useState, useEffect, useCallback } from 'react'
 import { Table, Button } from 'antd'
 // import { Line } from 'react-chartjs-2'
-import { Line } from '@ant-design/plots'
+// import { Line } from '@ant-design/plots'
 import { pruneData } from '../../utils/swapEcosystemChartHelper'
 
 const SwapEcosystemChart = ({ chainId, swapName }) => {
@@ -22,7 +22,7 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
     const URL = `https://api.covalenthq.com/v1/${chainId}/xy=k/${swapName}/ecosystem/`
     getDataFromCovalentAPI(URL)
       .then((response) => {
-        //console.log(response.data.items)
+        console.log(response.data.items)
         const prunedData = pruneData(response.data.items)
         //console.log(prunedData)
         setData(prunedData)
@@ -70,49 +70,49 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
       ]
     }
 
-    const data = [
-      {
-        year: '1991',
-        value: 3
-      },
-      {
-        year: '1992',
-        value: 4
-      }
-    ]
+    // const cdata = [
+    //   {
+    //     year: '1991',
+    //     value: 3
+    //   },
+    //   {
+    //     year: '1992',
+    //     value: 4
+    //   }
+    // ]
 
-    const config = {
-      data,
-      xField: 'date',
-      yField: 'value',
-      label: {},
-      point: {
-        size: 5,
-        shape: 'diamond',
-        style: {
-          fill: 'white',
-          stroke: '#5B8FF9',
-          lineWidth: 2
-        }
-      },
-      tooltip: {
-        showMarkers: false
-      },
-      state: {
-        active: {
-          style: {
-            shadowBlur: 4,
-            stroke: '#000',
-            fill: 'red'
-          }
-        }
-      },
-      interactions: [
-        {
-          type: 'marker-active'
-        }
-      ]
-    }
+    // const config = {
+    //   cdata,
+    //   xField: 'date',
+    //   yField: 'value',
+    //   label: {},
+    //   point: {
+    //     size: 5,
+    //     shape: 'diamond',
+    //     style: {
+    //       fill: 'white',
+    //       stroke: '#5B8FF9',
+    //       lineWidth: 2
+    //     }
+    //   },
+    //   tooltip: {
+    //     showMarkers: false
+    //   },
+    //   state: {
+    //     active: {
+    //       style: {
+    //         shadowBlur: 4,
+    //         stroke: '#000',
+    //         fill: 'red'
+    //       }
+    //     }
+    //   },
+    //   interactions: [
+    //     {
+    //       type: 'marker-active'
+    //     }
+    //   ]
+    // }
     console.log(liquidityChartData)
 
     return (
@@ -144,7 +144,7 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
               }
             }}
           /> */}
-          <Line {...config} />;
+          {/* <Line {...config} />; */}
         </div>
       </div>
     )
