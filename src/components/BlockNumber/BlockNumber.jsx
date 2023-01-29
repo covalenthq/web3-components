@@ -22,21 +22,17 @@ const BlockNumber = ({ chainId }) => {
     const URL = `https://api.covalenthq.com/v1/${chainId}/block_v2/latest/?quote-currency=USD&format=JSON`
     getDataFromCovalentAPI(URL)
       .then((response) => {
-        // getChains(response.data.items)
-        //console.log(response.data.items[0].height)
         setBlock(response.data.items[0].height)
       })
       .catch(() => setError(true))
-    //console.log('fetch')
   }
 
   if (error) {
-    return <p> Unable to fetch chains</p>
+    return <p> Unable to fetch BlockNumber</p>
   } else if (block) {
     return (
       <>
         <div>{block}</div>
-        {/* <div>{value.value}</div> */}
       </>
     )
   }

@@ -31,7 +31,6 @@ const NFTCard = ({ chainId, contractAddress, tokenId, cardWidth, cardHeight }) =
         setIsLoading(false)
         const pruneData = pruneNftCardData(response.data)
         setNFTData(pruneData)
-        //console.log(pruneData)
       })
       .catch((e) => {
         setError(true)
@@ -44,7 +43,6 @@ const NFTCard = ({ chainId, contractAddress, tokenId, cardWidth, cardHeight }) =
   } else if (isLoading) {
     return <Card loading={true} style={{ width: cardWidth, height: cardHeight }}></Card>
   } else if (!isLoading && NFTData) {
-    //console.log('NFTData', NFTData)
     return (
       <Card
         loading={isLoading}

@@ -10,6 +10,7 @@ import BlockNumber from './components/BlockNumber/BlockNumber'
 import SwapTxnsAccount from './components/SwapTxnsAccount/SwapTxnsAccount'
 import SwapTxnsExchange from './components/SwapTxnsExchange/SwapTxnsExchange'
 import SwapTxnsToken from './components/SwapTxnsToken/SwapTxnsToken'
+import SwapSelect from './components/SwapSelect/SwapSelect'
 
 export {
   TokenBalances,
@@ -23,5 +24,6 @@ export {
   BlockNumber,
   SwapTxnsAccount,
   SwapTxnsExchange,
-  SwapTxnsToken
+  SwapTxnsToken,
+  SwapSelect
 }
