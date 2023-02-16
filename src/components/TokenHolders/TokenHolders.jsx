@@ -32,6 +32,7 @@ const TokenHolders = ({
       .then((response) => {
         setIsLoading(false)
         getData(response.data.items)
+        console.log(response.data)
       })
       .catch(() => setError(true))
   }
@@ -63,7 +64,14 @@ const TokenHolders = ({
     {
       title: 'Total Supply',
       dataIndex: 'total_supply',
-      key: 'total_supply'
+      key: 'total_supply',
+      render: (text, record) => {
+        // console.log(record)
+        const compact_total = Intl.NumberFormat('en', { notation: 'compact' }).format(
+          record.total_supply
+        )
+        return <p>{compact_total}</p>
+      }
     },
     {
       title: 'Block Height',
@@ -95,6 +103,7 @@ const TokenHolders = ({
   } else if (isLoading) {
     return <Table loading={true} />
   } else if (!isLoading && data) {
+    console.log(data)
     return (
       <>
         <Table

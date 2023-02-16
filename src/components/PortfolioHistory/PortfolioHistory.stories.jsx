@@ -9,5 +9,5 @@ const Template = (args) => <PortfolioHistory {...args} />
 export const UserPortfolioHistory = Template.bind({})
 UserPortfolioHistory.args = {
   chainId: '1',
-  walletAddress: 'vitalik.eth'
+  walletAddress: 'demo.eth'
 }

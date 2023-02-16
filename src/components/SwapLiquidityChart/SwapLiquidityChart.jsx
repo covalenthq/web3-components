@@ -1,7 +1,6 @@
 import { getDataFromCovalentAPI } from '../../utils/api'
 import { useState, useEffect, useCallback } from 'react'
 import { Table, Button } from 'antd'
-// import { Line } from 'react-chartjs-2'
 // import { Line } from '@ant-design/plots'
 import { pruneData } from '../../utils/swapEcosystemChartHelper'
 
@@ -10,6 +9,10 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
   const [time, setTime] = useState('7')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
+
+  const optTime = () => {
+    setTime((t) => (t === '7' ? '30' : '7'))
+  }
 
   const fetchData = useCallback(() => {
     if (!(chainId && swapName)) {
@@ -24,7 +27,6 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
       .then((response) => {
         console.log(response.data.items)
         const prunedData = pruneData(response.data.items)
-        //console.log(prunedData)
         setData(prunedData)
         setIsLoading(false)
       })
@@ -41,34 +43,12 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
   if (error) {
     return <p> Unable to fetch data</p>
   } else if (isLoading) return <Table loading={isLoading} />
-
-  const optTime = () => {
-    setTime((t) => (t === '7' ? '30' : '7'))
-  }
-
-  if (!isLoading && data) {
+  else if (!isLoading && data) {
     console.log(data)
 
     const liquidityChart = time === '7' ? data.liquidity7dChart : data.liquidity30dChart
     const volumeChart = time === '7' ? data.volume7dChart : data.volume30dChart
-    console.log(volumeChart)
-    const liquidityChartData = {
-      datasets: [
-        {
-          label: 'Liquidity',
-          data: liquidityChart,
-          yAxisID: 'y',
-          borderColor: '#cfec40'
-        }
-        //     ,
-        // {
-        //   label: 'Volume',
-        //   data: volumeChart,
-        //   yAxisID: 'y2',
-        //   borderColor: '#0f0e3c'
-        // }
-      ]
-    }
+    console.log(liquidityChart, volumeChart)
 
     // const cdata = [
     //   {
@@ -113,7 +93,6 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
     //     }
     //   ]
     // }
-    console.log(liquidityChartData)
 
     return (
       <div>
@@ -127,25 +106,7 @@ const SwapEcosystemChart = ({ chainId, swapName }) => {
             </Button>
           </Button.Group>
         </div>
-        <div style={{ height: 500, width: '100%' }}>
-          {/* <Line
-            height={100}
-            data={liquidityChartData}
-            options={{
-              scales: {
-                y: {
-                  type: 'linear',
-                  position: 'left'
-                },
-                y2: {
-                  type: 'linear',
-                  position: 'right'
-                }
-              }
-            }}
-          /> */}
-          {/* <Line {...config} />; */}
-        </div>
+        <div style={{ height: 600, width: '100%' }}>{/* <Line {...config} />; */}</div>
       </div>
     )
   }

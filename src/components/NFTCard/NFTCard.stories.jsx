@@ -10,7 +10,7 @@ export const ColaventNFTCard = Template.bind({})
 ColaventNFTCard.args = {
   chainId: '1',
   contractAddress: '0xe77ad290adab2989a81ae62ab2467c01b45feeff',
-  tokenId: '3',
+  tokenId: '4',
   cardWidth: 240,
   cardHeight: 360
 }

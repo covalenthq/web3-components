@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import ChainSelector from './ChainSelector'
 
-// const [Chain, setChain] = useState([])
-// console.log(Chain)
 export default {
-  title: '1.Web3-Components/chainSelector',
+  title: '1.Web3-Components/ChainSelector',
   component: ChainSelector
 }
 const Template = (args) => {

@@ -80,25 +80,25 @@ const SwapPool = ({ chainId, swapName }) => {
       )
     },
     {
-      title: 'Volume(7D)',
-      dataIndex: 'volume7D',
-      key: 'volume7D',
+      title: 'Volume(24h)',
+      dataIndex: 'volume24h',
+      key: 'volume24h',
       width: '12%',
       render: (text, record) => {
-        const compact_volume7D = Intl.NumberFormat('en', { notation: 'compact' }).format(
-          record.volume7D
+        const compact_volume24h = Intl.NumberFormat('en', { notation: 'compact' }).format(
+          record.volume24h
         )
-        return <p>{compact_volume7D}</p>
+        return <p>{compact_volume24h}</p>
       }
     },
     {
-      title: 'Fee(7D)',
-      dataIndex: 'fee7D',
-      key: 'fee7D',
+      title: 'Fee(24h)',
+      dataIndex: 'fee24h',
+      key: 'fee24h',
       width: '12%',
       render: (text, record) => {
-        const compact_fee7D = Intl.NumberFormat('en', { notation: 'compact' }).format(record.fee7D)
-        return <p>{compact_fee7D}</p>
+        const compact_fee24h = Intl.NumberFormat('en', { notation: 'compact' }).format(record.fee24)
+        return <p>{compact_fee24h}</p>
       }
     },
     {
