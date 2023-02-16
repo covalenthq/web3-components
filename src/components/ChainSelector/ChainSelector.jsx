@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Select } from 'antd'
-import { getDataFromCovalentAPI } from '../utils/api'
+import { getDataFromCovalentAPI } from '../../utils/api'
 
-const ChainSelector = ({setChainName}) => {
+const ChainSelector = ({ setChainName }) => {
   const [chains, getChains] = useState([])
   const [error, setError] = useState(false)
 
@@ -21,10 +21,10 @@ const ChainSelector = ({setChainName}) => {
       .then((response) => {
         getChains(response.data.items)
       })
-      .catch((e) => setError(true))
+      .catch(() => setError(true))
   }
 
-  const options = chains.map(chain => ({
+  const options = chains.map((chain) => ({
     label: chain.label,
     value: chain.name
   }))
@@ -35,12 +35,12 @@ const ChainSelector = ({setChainName}) => {
     return (
       <>
         <Select
-          defaultValue='eth-mainnet'
+          defaultValue="eth-mainnet"
           style={{
-            width: 250,
+            width: 250
           }}
           onChange={handleChange}
-          options = {options}
+          options={options}
         />
       </>
     )

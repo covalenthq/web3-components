@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Table } from 'antd'
-import defaultLogo from '../assets/default-logo.png'
-import { getDataFromCovalentAPI } from '../utils/api'
+import defaultLogo from '../../assets/default-logo.png'
+import { getDataFromCovalentAPI } from '../../utils/api'
 
-const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize = 99999, quoteCurrency = 'USD' }) => {
+const TokenHolders = ({
+  tokenAddress,
+  chainId,
+  blockHeight = 'latest',
+  pageSize = 99999,
+  quoteCurrency = 'USD'
+}) => {
   const [data, getData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -26,8 +32,9 @@ const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize 
       .then((response) => {
         setIsLoading(false)
         getData(response.data.items)
+        console.log(response.data)
       })
-      .catch((e) => setError(true))
+      .catch(() => setError(true))
   }
 
   const summaryColumn = [
@@ -57,7 +64,14 @@ const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize 
     {
       title: 'Total Supply',
       dataIndex: 'total_supply',
-      key: 'total_supply'
+      key: 'total_supply',
+      render: (text, record) => {
+        // console.log(record)
+        const compact_total = Intl.NumberFormat('en', { notation: 'compact' }).format(
+          record.total_supply
+        )
+        return <p>{compact_total}</p>
+      }
     },
     {
       title: 'Block Height',
@@ -89,6 +103,7 @@ const TokenHolders = ({ tokenAddress, chainId, blockHeight = 'latest', pageSize 
   } else if (isLoading) {
     return <Table loading={true} />
   } else if (!isLoading && data) {
+    console.log(data)
     return (
       <>
         <Table

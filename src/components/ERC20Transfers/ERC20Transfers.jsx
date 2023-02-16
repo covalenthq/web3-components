@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react'
 import { Table, Popover, Button } from 'antd'
 import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import erc20TransfersHelper from '../utils/erc20TransfersHelper'
-import { blockExplorerURLs } from '../utils/blockExplorerURLs'
+import erc20TransfersHelper from '../../utils/erc20TransfersHelper'
+import { blockExplorerURLs } from '../../utils/blockExplorerURLs'
 import truncateEthAddress from 'truncate-eth-address'
-import defaultLogo from '../assets/default-logo.png'
-import { getDataFromCovalentAPI } from '../utils/api'
+import defaultLogo from '../../assets/default-logo.png'
+import { getDataFromCovalentAPI } from '../../utils/api'
 
-const ERC20Transfers = ({ address, chainId, ascending = false, noLogs = false, quoteCurrency = 'USD' }) => {
+const ERC20Transfers = ({
+  address,
+  chainId,
+  ascending = false,
+  noLogs = false,
+  quoteCurrency = 'USD'
+}) => {
   const blockExplorer = blockExplorerURLs.filter(
-    (item) => (parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId)
+    (item) => parseInt(item.chainId[0]) === parseInt(chainId) || item.chainId[1] === chainId
   )
-  const blockexplorerURL = (blockExplorer?.length) ? blockExplorer[0].url : 'https://blockscan.com/'
+  const blockexplorerURL = blockExplorer?.length ? blockExplorer[0].url : 'https://blockscan.com/'
   const [txnData, setTxnData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -37,7 +43,7 @@ const ERC20Transfers = ({ address, chainId, ascending = false, noLogs = false, q
         setIsLoading(false)
         setTxnData(transfers)
       })
-      .catch((e) => setError(true))
+      .catch(() => setError(true))
   }
 
   const columns = [
