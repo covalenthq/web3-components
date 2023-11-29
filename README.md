@@ -1,6 +1,7 @@
-# Web3 Components Library
+# Web3 Components Library - DEPRECATED
 
-**Live Demo:** https://covalenthq.github.io/Web3-Components-Demo
+# Replaced with GoldRush Kit - https://github.com/covalenthq/goldrush-kit
+
 
 This web3 library is powered by the [Covalent Unified API](https://www.covalenthq.com/?utm_source=web3_components&utm_medium=docs) and consists of useful React components to fetch any on-chain data across any of the 30+ Covalent supported blockchain networks.
 
