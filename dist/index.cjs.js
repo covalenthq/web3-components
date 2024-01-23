@@ -7,6 +7,8 @@ var antd = require('antd');
 var jsxRuntime = require('react/jsx-runtime');
 var icons = require('@ant-design/icons');
 var truncateEthAddress = require('truncate-eth-address');
+var reactChartjs2 = require('react-chartjs-2');
+require('chart.js/auto');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -95,7 +97,7 @@ function _nonIterableRest() {
 
 var img = "data:image/png;base64,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";
 
-var getDataFromCovalentAPI = function getDataFromCovalentAPI(URL) {
+var getDataFromCovalentAPI$1 = function getDataFromCovalentAPI(URL) {
   var headers = new Headers();
   var authString = "".concat(process.env.REACT_APP_COVALENT_API_KEY, ":");
   headers.set('Authorization', 'Basic ' + btoa(authString));
@@ -140,7 +142,7 @@ var TokenBalances = function TokenBalances(_ref) {
     setError(false);
     setIsLoading(true);
     var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/balances_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&nft=").concat(nft, "&no-nft-fetch=").concat(noNFTFetch);
-    getDataFromCovalentAPI(URL).then(function (response) {
+    getDataFromCovalentAPI$1(URL).then(function (response) {
       setIsLoading(false);
       getData(response.data.items);
     }).catch(function (e) {
@@ -534,7 +536,7 @@ var ERC20Transfers = function ERC20Transfers(_ref) {
     setError(false);
     setIsLoading(true);
     var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-signed-at-asc=").concat(ascending, "&no-logs=").concat(noLogs);
-    getDataFromCovalentAPI(URL).then(function (response) {
+    getDataFromCovalentAPI$1(URL).then(function (response) {
       var transfersData = erc20TransfersHelper.filterForTransfers(response);
       var transfers = erc20TransfersHelper.pruneTransfers(transfersData, address);
       setIsLoading(false);
@@ -701,7 +703,7 @@ var TokenHolders = function TokenHolders(_ref) {
     setError(false);
     setIsLoading(true);
     var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/tokens/").concat(tokenAddress, "/token_holders/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-height=").concat(blockHeight, "&page-size=").concat(pageSize);
-    getDataFromCovalentAPI(URL).then(function (response) {
+    getDataFromCovalentAPI$1(URL).then(function (response) {
       setIsLoading(false);
       getData(response.data.items);
     }).catch(function (e) {
@@ -1320,7 +1322,7 @@ var Transactions = function Transactions(_ref) {
     setError(false);
     setIsLoading(true);
     var transactionsEndpoint = "https://api.covalenthq.com/v1/".concat(chainId, "/address/").concat(address, "/transactions_v2/?quote-currency=").concat(quoteCurrency, "&format=JSON&block-signed-at-asc=").concat(ascending, "&no-logs=").concat(noLogs, "&page-size=").concat(pageSize);
-    getDataFromCovalentAPI(transactionsEndpoint).then(function (response) {
+    getDataFromCovalentAPI$1(transactionsEndpoint).then(function (response) {
       setIsLoading(false);
       var transformedTransactions = transform(response.data.items.filter(function (txn) {
         return txn.log_events.length < 20;
@@ -1370,7 +1372,7 @@ var ChainSelector = function ChainSelector(_ref) {
   var fetchData = function fetchData() {
     setError(false);
     var URL = "https://api.covalenthq.com/v1/chains/";
-    getDataFromCovalentAPI(URL).then(function (response) {
+    getDataFromCovalentAPI$1(URL).then(function (response) {
       getChains(response.data.items);
     }).catch(function (e) {
       return setError(true);
@@ -1400,8 +1402,205 @@ var ChainSelector = function ChainSelector(_ref) {
   }
 };
 
+var ExchangeSelector = function ExchangeSelector(_ref) {
+  var setCurrentDex = _ref.setCurrentDex;
+  var _useState = react.useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    options = _useState2[0],
+    setOptions = _useState2[1];
+  var _useState3 = react.useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    error = _useState4[0],
+    setError = _useState4[1];
+  var fetchExchanges = react.useCallback(function () {
+    setError(false);
+    var chainsUrl = "https://api.covalenthq.com/v1/chains/";
+    var dexesUrl = "https://api.covalenthq.com/v1/xy=k/supported_dexes/";
+    Promise.all([getDataFromCovalentAPI$1(chainsUrl), getDataFromCovalentAPI$1(dexesUrl)]).then(function (_ref2) {
+      var _ref3 = _slicedToArray(_ref2, 2),
+        chainsResponse = _ref3[0],
+        dexesResponse = _ref3[1];
+      var chains = chainsResponse.data.items;
+      var dexes = dexesResponse.data.items.filter(function (dex) {
+        return !!dex.dex_name;
+      });
+      var chainAndDexes = chains.map(function (chain) {
+        var label = chain.label;
+        var options = dexes.filter(function (dex) {
+          return dex.chain_id === chain.chain_id;
+        }).map(function (dex) {
+          return {
+            label: dex.dex_name,
+            value: "".concat(chain.chain_id, "-").concat(dex.dex_name)
+          };
+        });
+        return {
+          label: label,
+          options: options
+        };
+      });
+      setOptions(chainAndDexes.filter(function (option) {
+        return option.options.length > 0;
+      }));
+    }).catch(function () {
+      return setError(true);
+    });
+  }, []);
+  var handleChange = function handleChange(value) {
+    setCurrentDex(value);
+  };
+  react.useEffect(function () {
+    fetchExchanges();
+  }, [fetchExchanges]);
+  if (error) {
+    return /*#__PURE__*/jsxRuntime.jsx("p", {
+      children: " Unable to fetch exchanges"
+    });
+  }
+  return /*#__PURE__*/jsxRuntime.jsx(antd.Select, {
+    style: {
+      width: 250
+    },
+    onChange: handleChange,
+    options: options
+  });
+};
+
+var ExchangeChart = function ExchangeChart(_ref) {
+  var chainId = _ref.chainId,
+    exchangeName = _ref.exchangeName;
+  var _useState = react.useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    data = _useState2[0],
+    setData = _useState2[1];
+  var _useState3 = react.useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isLoading = _useState4[0],
+    setIsLoading = _useState4[1];
+  var _useState5 = react.useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    error = _useState6[0],
+    setError = _useState6[1];
+  var _useState7 = react.useState('7d'),
+    _useState8 = _slicedToArray(_useState7, 2),
+    period = _useState8[0],
+    setPeriod = _useState8[1];
+  var fetchData = react.useCallback(function () {
+    if (!(chainId && exchangeName)) {
+      setData([]);
+      setError(false);
+    }
+    setError(false);
+    setIsLoading(true);
+    var URL = "https://api.covalenthq.com/v1/".concat(chainId, "/xy=k/").concat(exchangeName, "/ecosystem/");
+    getDataFromCovalentAPI(URL).then(function (response) {
+      setIsLoading(false);
+      setData(response.data.items);
+    }).catch(function () {
+      return setError(true);
+    });
+  }, [chainId, exchangeName]);
+  react.useEffect(function () {
+    fetchData();
+  }, [fetchData]);
+  if (isLoading) {
+    return /*#__PURE__*/jsxRuntime.jsx(antd.Table, {
+      loading: true
+    });
+  }
+  if (error || data.length === 0) {
+    return /*#__PURE__*/jsxRuntime.jsx("p", {
+      children: " Unable to fetch data"
+    });
+  }
+  var togglePeriod = function togglePeriod() {
+    setPeriod(function (period) {
+      return period === '7d' ? '30d' : '7d';
+    });
+  };
+  var _data$ = data[0],
+    liquidity_chart_7d = _data$.liquidity_chart_7d,
+    liquidity_chart_30d = _data$.liquidity_chart_30d,
+    volume_chart_7d = _data$.volume_chart_7d,
+    volume_chart_30d = _data$.volume_chart_30d;
+  var liquidityChart7d = (period === '7d' ? liquidity_chart_7d : liquidity_chart_30d).map(function (item) {
+    var date = new Date(item.dt);
+    var x = new Intl.DateTimeFormat('en-US').format(date);
+    var y = item.liquidity_quote;
+    return {
+      x: x,
+      y: y
+    };
+  });
+  var volumeChart7d = (period === '7d' ? volume_chart_7d : volume_chart_30d).map(function (item) {
+    var date = new Date(item.dt);
+    var x = new Intl.DateTimeFormat('en-US').format(date);
+    var y = item.volume_quote;
+    return {
+      x: x,
+      y: y
+    };
+  });
+  var liquidityChart7dData = {
+    datasets: [{
+      label: 'Liquidity',
+      data: liquidityChart7d,
+      yAxisID: 'y',
+      borderColor: '#ff0000'
+    }, {
+      label: 'Volume',
+      data: volumeChart7d,
+      yAxisID: 'y2',
+      borderColor: '#3275a8'
+    }]
+  };
+  return /*#__PURE__*/jsxRuntime.jsxs("div", {
+    children: [/*#__PURE__*/jsxRuntime.jsx("div", {
+      style: {
+        marginTop: 10
+      },
+      children: /*#__PURE__*/jsxRuntime.jsxs(antd.Button.Group, {
+        children: [/*#__PURE__*/jsxRuntime.jsx(antd.Button, {
+          rounded: true,
+          disabled: period === '7d',
+          onClick: togglePeriod,
+          children: "7d"
+        }), /*#__PURE__*/jsxRuntime.jsx(antd.Button, {
+          rounded: true,
+          disabled: period === '30d',
+          onClick: togglePeriod,
+          children: "30d"
+        })]
+      })
+    }), /*#__PURE__*/jsxRuntime.jsx("div", {
+      style: {
+        height: 500,
+        width: '100%'
+      },
+      children: /*#__PURE__*/jsxRuntime.jsx(reactChartjs2.Line, {
+        height: 100,
+        data: liquidityChart7dData,
+        options: {
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left'
+            },
+            y2: {
+              type: 'linear',
+              position: 'right'
+            }
+          }
+        }
+      })
+    })]
+  });
+};
+
 exports.ChainSelector = ChainSelector;
 exports.ERC20Transfers = ERC20Transfers;
+exports.ExchangeChart = ExchangeChart;
+exports.ExchangeSelector = ExchangeSelector;
 exports.TokenBalances = TokenBalances;
 exports.TokenHolders = TokenHolders;
 exports.Transactions = Transactions;
